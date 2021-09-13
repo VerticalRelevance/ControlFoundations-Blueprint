@@ -12,7 +12,7 @@ github_owner = "showley-vr"
 controls_repo = "ControlsFoundation-ControlsPipeline"
 application_repo = "ControlsFoundation-ApplicationPipeline"
 
-ControlsPipelineStack(app, "ControlsPipeline", github_owner, controls_repo)
-ControlsPipelineStack(app, "ApplicationPipeline", github_owner, application_repo)
+ControlsPipelineStack(app, "ControlsFoundationControlsPipeline", github_owner, controls_repo)
+ControlsPipelineStack(app, "ControlsFoundationTestApplicationPipeline", github_owner, application_repo)
 
 app.synth()

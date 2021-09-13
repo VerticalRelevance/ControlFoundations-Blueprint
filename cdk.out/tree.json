@@ -12,13 +12,13 @@
           "version": "1.122.0"
         }
       },
-      "ControlsPipeline": {
-        "id": "ControlsPipeline",
-        "path": "ControlsPipeline",
+      "ControlsFoundationControlsPipeline": {
+        "id": "ControlsFoundationControlsPipeline",
+        "path": "ControlsFoundationControlsPipeline",
         "children": {
           "ControlsFoundation-ControlsPipeline_git_connection": {
             "id": "ControlsFoundation-ControlsPipeline_git_connection",
-            "path": "ControlsPipeline/ControlsFoundation-ControlsPipeline_git_connection",
+            "path": "ControlsFoundationControlsPipeline/ControlsFoundation-ControlsPipeline_git_connection",
             "attributes": {
               "aws:cdk:cloudformation:type": "AWS::CodeStarConnections::Connection",
               "aws:cdk:cloudformation:props": {
@@ -33,19 +33,19 @@
           },
           "Pipeline": {
             "id": "Pipeline",
-            "path": "ControlsPipeline/Pipeline",
+            "path": "ControlsFoundationControlsPipeline/Pipeline",
             "children": {
               "Pipeline": {
                 "id": "Pipeline",
-                "path": "ControlsPipeline/Pipeline/Pipeline",
+                "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline",
                 "children": {
                   "ArtifactsBucketEncryptionKey": {
                     "id": "ArtifactsBucketEncryptionKey",
-                    "path": "ControlsPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKey",
+                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKey",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "ControlsPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKey/Resource",
+                        "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKey/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::KMS::Key",
                           "aws:cdk:cloudformation:props": {
@@ -92,15 +92,15 @@
                   },
                   "ArtifactsBucketEncryptionKeyAlias": {
                     "id": "ArtifactsBucketEncryptionKeyAlias",
-                    "path": "ControlsPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKeyAlias",
+                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKeyAlias",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "ControlsPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKeyAlias/Resource",
+                        "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKeyAlias/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::KMS::Alias",
                           "aws:cdk:cloudformation:props": {
-                            "aliasName": "alias/codepipeline-controlspipeline60530b10",
+                            "aliasName": "alias/codepipeline-controlsfoundationcontrolspipeline35306696",
                             "targetKeyId": {
                               "Fn::GetAtt": [
                                 "PipelineArtifactsBucketEncryptionKeyF5BF0670",
@@ -122,11 +122,11 @@
                   },
                   "ArtifactsBucket": {
                     "id": "ArtifactsBucket",
-                    "path": "ControlsPipeline/Pipeline/Pipeline/ArtifactsBucket",
+                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/ArtifactsBucket",
                     "children": {
                       "Notifications": {
                         "id": "Notifications",
-                        "path": "ControlsPipeline/Pipeline/Pipeline/ArtifactsBucket/Notifications",
+                        "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/ArtifactsBucket/Notifications",
                         "constructInfo": {
                           "fqn": "@aws-cdk/core.Construct",
                           "version": "1.122.0"
@@ -134,7 +134,7 @@
                       },
                       "Resource": {
                         "id": "Resource",
-                        "path": "ControlsPipeline/Pipeline/Pipeline/ArtifactsBucket/Resource",
+                        "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/ArtifactsBucket/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
                           "aws:cdk:cloudformation:props": {
@@ -174,11 +174,11 @@
                   },
                   "Role": {
                     "id": "Role",
-                    "path": "ControlsPipeline/Pipeline/Pipeline/Role",
+                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Role",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "ControlsPipeline/Pipeline/Pipeline/Role/Resource",
+                        "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Role/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                           "aws:cdk:cloudformation:props": {
@@ -203,11 +203,11 @@
                       },
                       "DefaultPolicy": {
                         "id": "DefaultPolicy",
-                        "path": "ControlsPipeline/Pipeline/Pipeline/Role/DefaultPolicy",
+                        "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Role/DefaultPolicy",
                         "children": {
                           "Resource": {
                             "id": "Resource",
-                            "path": "ControlsPipeline/Pipeline/Pipeline/Role/DefaultPolicy/Resource",
+                            "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Role/DefaultPolicy/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                               "aws:cdk:cloudformation:props": {
@@ -267,7 +267,7 @@
                                       "Effect": "Allow",
                                       "Resource": {
                                         "Fn::GetAtt": [
-                                          "PipelineSourceGithubSourceCodePipelineActionRole3B18880E",
+                                          "PipelineSourceGitHubSourceCodePipelineActionRoleB2525DBB",
                                           "Arn"
                                         ]
                                       }
@@ -322,7 +322,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "ControlsPipeline/Pipeline/Pipeline/Resource",
+                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::CodePipeline::Pipeline",
                       "aws:cdk:cloudformation:props": {
@@ -337,10 +337,10 @@
                             "name": "Source",
                             "actions": [
                               {
-                                "name": "Github_Source",
+                                "name": "GitHub_Source",
                                 "outputArtifacts": [
                                   {
-                                    "name": "Artifact_Source_Github_Source"
+                                    "name": "Artifact_Source_GitHub_Source"
                                   }
                                 ],
                                 "actionTypeId": {
@@ -362,7 +362,7 @@
                                 "runOrder": 1,
                                 "roleArn": {
                                   "Fn::GetAtt": [
-                                    "PipelineSourceGithubSourceCodePipelineActionRole3B18880E",
+                                    "PipelineSourceGitHubSourceCodePipelineActionRoleB2525DBB",
                                     "Arn"
                                   ]
                                 }
@@ -376,7 +376,7 @@
                                 "name": "Synth",
                                 "inputArtifacts": [
                                   {
-                                    "name": "Artifact_Source_Github_Source"
+                                    "name": "Artifact_Source_GitHub_Source"
                                   }
                                 ],
                                 "outputArtifacts": [
@@ -463,19 +463,19 @@
                   },
                   "Source": {
                     "id": "Source",
-                    "path": "ControlsPipeline/Pipeline/Pipeline/Source",
+                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Source",
                     "children": {
-                      "Github_Source": {
-                        "id": "Github_Source",
-                        "path": "ControlsPipeline/Pipeline/Pipeline/Source/Github_Source",
+                      "GitHub_Source": {
+                        "id": "GitHub_Source",
+                        "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Source/GitHub_Source",
                         "children": {
                           "CodePipelineActionRole": {
                             "id": "CodePipelineActionRole",
-                            "path": "ControlsPipeline/Pipeline/Pipeline/Source/Github_Source/CodePipelineActionRole",
+                            "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Source/GitHub_Source/CodePipelineActionRole",
                             "children": {
                               "Resource": {
                                 "id": "Resource",
-                                "path": "ControlsPipeline/Pipeline/Pipeline/Source/Github_Source/CodePipelineActionRole/Resource",
+                                "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Source/GitHub_Source/CodePipelineActionRole/Resource",
                                 "attributes": {
                                   "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                                   "aws:cdk:cloudformation:props": {
@@ -515,11 +515,11 @@
                               },
                               "DefaultPolicy": {
                                 "id": "DefaultPolicy",
-                                "path": "ControlsPipeline/Pipeline/Pipeline/Source/Github_Source/CodePipelineActionRole/DefaultPolicy",
+                                "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Source/GitHub_Source/CodePipelineActionRole/DefaultPolicy",
                                 "children": {
                                   "Resource": {
                                     "id": "Resource",
-                                    "path": "ControlsPipeline/Pipeline/Pipeline/Source/Github_Source/CodePipelineActionRole/DefaultPolicy/Resource",
+                                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Source/GitHub_Source/CodePipelineActionRole/DefaultPolicy/Resource",
                                     "attributes": {
                                       "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                                       "aws:cdk:cloudformation:props": {
@@ -605,10 +605,10 @@
                                           ],
                                           "Version": "2012-10-17"
                                         },
-                                        "policyName": "PipelineSourceGithubSourceCodePipelineActionRoleDefaultPolicyAE52DC95",
+                                        "policyName": "PipelineSourceGitHubSourceCodePipelineActionRoleDefaultPolicy8A05171D",
                                         "roles": [
                                           {
-                                            "Ref": "PipelineSourceGithubSourceCodePipelineActionRole3B18880E"
+                                            "Ref": "PipelineSourceGitHubSourceCodePipelineActionRoleB2525DBB"
                                           }
                                         ]
                                       }
@@ -644,19 +644,19 @@
                   },
                   "Build": {
                     "id": "Build",
-                    "path": "ControlsPipeline/Pipeline/Pipeline/Build",
+                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Build",
                     "children": {
                       "Synth": {
                         "id": "Synth",
-                        "path": "ControlsPipeline/Pipeline/Pipeline/Build/Synth",
+                        "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Build/Synth",
                         "children": {
                           "CodePipelineActionRole": {
                             "id": "CodePipelineActionRole",
-                            "path": "ControlsPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole",
+                            "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole",
                             "children": {
                               "Resource": {
                                 "id": "Resource",
-                                "path": "ControlsPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole/Resource",
+                                "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole/Resource",
                                 "attributes": {
                                   "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                                   "aws:cdk:cloudformation:props": {
@@ -696,11 +696,11 @@
                               },
                               "DefaultPolicy": {
                                 "id": "DefaultPolicy",
-                                "path": "ControlsPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole/DefaultPolicy",
+                                "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole/DefaultPolicy",
                                 "children": {
                                   "Resource": {
                                     "id": "Resource",
-                                    "path": "ControlsPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole/DefaultPolicy/Resource",
+                                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole/DefaultPolicy/Resource",
                                     "attributes": {
                                       "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                                       "aws:cdk:cloudformation:props": {
@@ -750,15 +750,15 @@
                           },
                           "CdkBuildProject": {
                             "id": "CdkBuildProject",
-                            "path": "ControlsPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject",
+                            "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject",
                             "children": {
                               "Role": {
                                 "id": "Role",
-                                "path": "ControlsPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role",
+                                "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role",
                                 "children": {
                                   "Resource": {
                                     "id": "Resource",
-                                    "path": "ControlsPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role/Resource",
+                                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role/Resource",
                                     "attributes": {
                                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                                       "aws:cdk:cloudformation:props": {
@@ -783,11 +783,11 @@
                                   },
                                   "DefaultPolicy": {
                                     "id": "DefaultPolicy",
-                                    "path": "ControlsPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy",
+                                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy",
                                     "children": {
                                       "Resource": {
                                         "id": "Resource",
-                                        "path": "ControlsPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy/Resource",
+                                        "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy/Resource",
                                         "attributes": {
                                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                                           "aws:cdk:cloudformation:props": {
@@ -978,7 +978,7 @@
                               },
                               "Resource": {
                                 "id": "Resource",
-                                "path": "ControlsPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Resource",
+                                "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Resource",
                                 "attributes": {
                                   "aws:cdk:cloudformation:type": "AWS::CodeBuild::Project",
                                   "aws:cdk:cloudformation:props": {
@@ -1035,19 +1035,19 @@
                   },
                   "UpdatePipeline": {
                     "id": "UpdatePipeline",
-                    "path": "ControlsPipeline/Pipeline/Pipeline/UpdatePipeline",
+                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/UpdatePipeline",
                     "children": {
                       "SelfMutate": {
                         "id": "SelfMutate",
-                        "path": "ControlsPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate",
+                        "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate",
                         "children": {
                           "CodePipelineActionRole": {
                             "id": "CodePipelineActionRole",
-                            "path": "ControlsPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole",
+                            "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole",
                             "children": {
                               "Resource": {
                                 "id": "Resource",
-                                "path": "ControlsPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/Resource",
+                                "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/Resource",
                                 "attributes": {
                                   "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                                   "aws:cdk:cloudformation:props": {
@@ -1087,11 +1087,11 @@
                               },
                               "DefaultPolicy": {
                                 "id": "DefaultPolicy",
-                                "path": "ControlsPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy",
+                                "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy",
                                 "children": {
                                   "Resource": {
                                     "id": "Resource",
-                                    "path": "ControlsPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy/Resource",
+                                    "path": "ControlsFoundationControlsPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy/Resource",
                                     "attributes": {
                                       "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                                       "aws:cdk:cloudformation:props": {
@@ -1159,19 +1159,19 @@
               },
               "UpdatePipeline": {
                 "id": "UpdatePipeline",
-                "path": "ControlsPipeline/Pipeline/UpdatePipeline",
+                "path": "ControlsFoundationControlsPipeline/Pipeline/UpdatePipeline",
                 "children": {
                   "SelfMutation": {
                     "id": "SelfMutation",
-                    "path": "ControlsPipeline/Pipeline/UpdatePipeline/SelfMutation",
+                    "path": "ControlsFoundationControlsPipeline/Pipeline/UpdatePipeline/SelfMutation",
                     "children": {
                       "Role": {
                         "id": "Role",
-                        "path": "ControlsPipeline/Pipeline/UpdatePipeline/SelfMutation/Role",
+                        "path": "ControlsFoundationControlsPipeline/Pipeline/UpdatePipeline/SelfMutation/Role",
                         "children": {
                           "Resource": {
                             "id": "Resource",
-                            "path": "ControlsPipeline/Pipeline/UpdatePipeline/SelfMutation/Role/Resource",
+                            "path": "ControlsFoundationControlsPipeline/Pipeline/UpdatePipeline/SelfMutation/Role/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                               "aws:cdk:cloudformation:props": {
@@ -1196,11 +1196,11 @@
                           },
                           "DefaultPolicy": {
                             "id": "DefaultPolicy",
-                            "path": "ControlsPipeline/Pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy",
+                            "path": "ControlsFoundationControlsPipeline/Pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy",
                             "children": {
                               "Resource": {
                                 "id": "Resource",
-                                "path": "ControlsPipeline/Pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource",
+                                "path": "ControlsFoundationControlsPipeline/Pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource",
                                 "attributes": {
                                   "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                                   "aws:cdk:cloudformation:props": {
@@ -1420,7 +1420,7 @@
                       },
                       "Resource": {
                         "id": "Resource",
-                        "path": "ControlsPipeline/Pipeline/UpdatePipeline/SelfMutation/Resource",
+                        "path": "ControlsFoundationControlsPipeline/Pipeline/UpdatePipeline/SelfMutation/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::CodeBuild::Project",
                           "aws:cdk:cloudformation:props": {
@@ -1442,7 +1442,7 @@
                             },
                             "source": {
                               "type": "CODEPIPELINE",
-                              "buildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g aws-cdk\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk -a . deploy ControlsPipeline --require-approval=never --verbose\"\n      ]\n    }\n  }\n}"
+                              "buildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g aws-cdk\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk -a . deploy ControlsFoundationControlsPipeline --require-approval=never --verbose\"\n      ]\n    }\n  }\n}"
                             },
                             "encryptionKey": {
                               "Fn::GetAtt": [
@@ -1471,7 +1471,7 @@
               },
               "Assets": {
                 "id": "Assets",
-                "path": "ControlsPipeline/Pipeline/Assets",
+                "path": "ControlsFoundationControlsPipeline/Pipeline/Assets",
                 "constructInfo": {
                   "fqn": "@aws-cdk/core.Construct",
                   "version": "1.122.0"
@@ -1485,11 +1485,11 @@
           },
           "CDKMetadata": {
             "id": "CDKMetadata",
-            "path": "ControlsPipeline/CDKMetadata",
+            "path": "ControlsFoundationControlsPipeline/CDKMetadata",
             "children": {
               "Default": {
                 "id": "Default",
-                "path": "ControlsPipeline/CDKMetadata/Default",
+                "path": "ControlsFoundationControlsPipeline/CDKMetadata/Default",
                 "constructInfo": {
                   "fqn": "@aws-cdk/core.CfnResource",
                   "version": "1.122.0"
@@ -1497,7 +1497,7 @@
               },
               "Condition": {
                 "id": "Condition",
-                "path": "ControlsPipeline/CDKMetadata/Condition",
+                "path": "ControlsFoundationControlsPipeline/CDKMetadata/Condition",
                 "constructInfo": {
                   "fqn": "@aws-cdk/core.CfnCondition",
                   "version": "1.122.0"
@@ -1515,13 +1515,13 @@
           "version": "1.122.0"
         }
       },
-      "ApplicationPipeline": {
-        "id": "ApplicationPipeline",
-        "path": "ApplicationPipeline",
+      "ControlsFoundationTestApplicationPipeline": {
+        "id": "ControlsFoundationTestApplicationPipeline",
+        "path": "ControlsFoundationTestApplicationPipeline",
         "children": {
           "ControlsFoundation-ApplicationPipeline_git_connection": {
             "id": "ControlsFoundation-ApplicationPipeline_git_connection",
-            "path": "ApplicationPipeline/ControlsFoundation-ApplicationPipeline_git_connection",
+            "path": "ControlsFoundationTestApplicationPipeline/ControlsFoundation-ApplicationPipeline_git_connection",
             "attributes": {
               "aws:cdk:cloudformation:type": "AWS::CodeStarConnections::Connection",
               "aws:cdk:cloudformation:props": {
@@ -1536,19 +1536,19 @@
           },
           "Pipeline": {
             "id": "Pipeline",
-            "path": "ApplicationPipeline/Pipeline",
+            "path": "ControlsFoundationTestApplicationPipeline/Pipeline",
             "children": {
               "Pipeline": {
                 "id": "Pipeline",
-                "path": "ApplicationPipeline/Pipeline/Pipeline",
+                "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline",
                 "children": {
                   "ArtifactsBucketEncryptionKey": {
                     "id": "ArtifactsBucketEncryptionKey",
-                    "path": "ApplicationPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKey",
+                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKey",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "ApplicationPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKey/Resource",
+                        "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKey/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::KMS::Key",
                           "aws:cdk:cloudformation:props": {
@@ -1595,15 +1595,15 @@
                   },
                   "ArtifactsBucketEncryptionKeyAlias": {
                     "id": "ArtifactsBucketEncryptionKeyAlias",
-                    "path": "ApplicationPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKeyAlias",
+                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKeyAlias",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "ApplicationPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKeyAlias/Resource",
+                        "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/ArtifactsBucketEncryptionKeyAlias/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::KMS::Alias",
                           "aws:cdk:cloudformation:props": {
-                            "aliasName": "alias/codepipeline-applicationpipelineaf8a7275",
+                            "aliasName": "alias/codepipeline-controlsfoundationtestapplicationpipeline89955838",
                             "targetKeyId": {
                               "Fn::GetAtt": [
                                 "PipelineArtifactsBucketEncryptionKeyF5BF0670",
@@ -1625,11 +1625,11 @@
                   },
                   "ArtifactsBucket": {
                     "id": "ArtifactsBucket",
-                    "path": "ApplicationPipeline/Pipeline/Pipeline/ArtifactsBucket",
+                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/ArtifactsBucket",
                     "children": {
                       "Notifications": {
                         "id": "Notifications",
-                        "path": "ApplicationPipeline/Pipeline/Pipeline/ArtifactsBucket/Notifications",
+                        "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/ArtifactsBucket/Notifications",
                         "constructInfo": {
                           "fqn": "@aws-cdk/core.Construct",
                           "version": "1.122.0"
@@ -1637,7 +1637,7 @@
                       },
                       "Resource": {
                         "id": "Resource",
-                        "path": "ApplicationPipeline/Pipeline/Pipeline/ArtifactsBucket/Resource",
+                        "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/ArtifactsBucket/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
                           "aws:cdk:cloudformation:props": {
@@ -1677,11 +1677,11 @@
                   },
                   "Role": {
                     "id": "Role",
-                    "path": "ApplicationPipeline/Pipeline/Pipeline/Role",
+                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Role",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "ApplicationPipeline/Pipeline/Pipeline/Role/Resource",
+                        "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Role/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                           "aws:cdk:cloudformation:props": {
@@ -1706,11 +1706,11 @@
                       },
                       "DefaultPolicy": {
                         "id": "DefaultPolicy",
-                        "path": "ApplicationPipeline/Pipeline/Pipeline/Role/DefaultPolicy",
+                        "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Role/DefaultPolicy",
                         "children": {
                           "Resource": {
                             "id": "Resource",
-                            "path": "ApplicationPipeline/Pipeline/Pipeline/Role/DefaultPolicy/Resource",
+                            "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Role/DefaultPolicy/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                               "aws:cdk:cloudformation:props": {
@@ -1770,7 +1770,7 @@
                                       "Effect": "Allow",
                                       "Resource": {
                                         "Fn::GetAtt": [
-                                          "PipelineSourceGithubSourceCodePipelineActionRole3B18880E",
+                                          "PipelineSourceGitHubSourceCodePipelineActionRoleB2525DBB",
                                           "Arn"
                                         ]
                                       }
@@ -1825,7 +1825,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "ApplicationPipeline/Pipeline/Pipeline/Resource",
+                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::CodePipeline::Pipeline",
                       "aws:cdk:cloudformation:props": {
@@ -1840,10 +1840,10 @@
                             "name": "Source",
                             "actions": [
                               {
-                                "name": "Github_Source",
+                                "name": "GitHub_Source",
                                 "outputArtifacts": [
                                   {
-                                    "name": "Artifact_Source_Github_Source"
+                                    "name": "Artifact_Source_GitHub_Source"
                                   }
                                 ],
                                 "actionTypeId": {
@@ -1865,7 +1865,7 @@
                                 "runOrder": 1,
                                 "roleArn": {
                                   "Fn::GetAtt": [
-                                    "PipelineSourceGithubSourceCodePipelineActionRole3B18880E",
+                                    "PipelineSourceGitHubSourceCodePipelineActionRoleB2525DBB",
                                     "Arn"
                                   ]
                                 }
@@ -1879,7 +1879,7 @@
                                 "name": "Synth",
                                 "inputArtifacts": [
                                   {
-                                    "name": "Artifact_Source_Github_Source"
+                                    "name": "Artifact_Source_GitHub_Source"
                                   }
                                 ],
                                 "outputArtifacts": [
@@ -1966,19 +1966,19 @@
                   },
                   "Source": {
                     "id": "Source",
-                    "path": "ApplicationPipeline/Pipeline/Pipeline/Source",
+                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Source",
                     "children": {
-                      "Github_Source": {
-                        "id": "Github_Source",
-                        "path": "ApplicationPipeline/Pipeline/Pipeline/Source/Github_Source",
+                      "GitHub_Source": {
+                        "id": "GitHub_Source",
+                        "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Source/GitHub_Source",
                         "children": {
                           "CodePipelineActionRole": {
                             "id": "CodePipelineActionRole",
-                            "path": "ApplicationPipeline/Pipeline/Pipeline/Source/Github_Source/CodePipelineActionRole",
+                            "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Source/GitHub_Source/CodePipelineActionRole",
                             "children": {
                               "Resource": {
                                 "id": "Resource",
-                                "path": "ApplicationPipeline/Pipeline/Pipeline/Source/Github_Source/CodePipelineActionRole/Resource",
+                                "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Source/GitHub_Source/CodePipelineActionRole/Resource",
                                 "attributes": {
                                   "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                                   "aws:cdk:cloudformation:props": {
@@ -2018,11 +2018,11 @@
                               },
                               "DefaultPolicy": {
                                 "id": "DefaultPolicy",
-                                "path": "ApplicationPipeline/Pipeline/Pipeline/Source/Github_Source/CodePipelineActionRole/DefaultPolicy",
+                                "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Source/GitHub_Source/CodePipelineActionRole/DefaultPolicy",
                                 "children": {
                                   "Resource": {
                                     "id": "Resource",
-                                    "path": "ApplicationPipeline/Pipeline/Pipeline/Source/Github_Source/CodePipelineActionRole/DefaultPolicy/Resource",
+                                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Source/GitHub_Source/CodePipelineActionRole/DefaultPolicy/Resource",
                                     "attributes": {
                                       "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                                       "aws:cdk:cloudformation:props": {
@@ -2108,10 +2108,10 @@
                                           ],
                                           "Version": "2012-10-17"
                                         },
-                                        "policyName": "PipelineSourceGithubSourceCodePipelineActionRoleDefaultPolicyAE52DC95",
+                                        "policyName": "PipelineSourceGitHubSourceCodePipelineActionRoleDefaultPolicy8A05171D",
                                         "roles": [
                                           {
-                                            "Ref": "PipelineSourceGithubSourceCodePipelineActionRole3B18880E"
+                                            "Ref": "PipelineSourceGitHubSourceCodePipelineActionRoleB2525DBB"
                                           }
                                         ]
                                       }
@@ -2147,19 +2147,19 @@
                   },
                   "Build": {
                     "id": "Build",
-                    "path": "ApplicationPipeline/Pipeline/Pipeline/Build",
+                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Build",
                     "children": {
                       "Synth": {
                         "id": "Synth",
-                        "path": "ApplicationPipeline/Pipeline/Pipeline/Build/Synth",
+                        "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Build/Synth",
                         "children": {
                           "CodePipelineActionRole": {
                             "id": "CodePipelineActionRole",
-                            "path": "ApplicationPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole",
+                            "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole",
                             "children": {
                               "Resource": {
                                 "id": "Resource",
-                                "path": "ApplicationPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole/Resource",
+                                "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole/Resource",
                                 "attributes": {
                                   "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                                   "aws:cdk:cloudformation:props": {
@@ -2199,11 +2199,11 @@
                               },
                               "DefaultPolicy": {
                                 "id": "DefaultPolicy",
-                                "path": "ApplicationPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole/DefaultPolicy",
+                                "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole/DefaultPolicy",
                                 "children": {
                                   "Resource": {
                                     "id": "Resource",
-                                    "path": "ApplicationPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole/DefaultPolicy/Resource",
+                                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Build/Synth/CodePipelineActionRole/DefaultPolicy/Resource",
                                     "attributes": {
                                       "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                                       "aws:cdk:cloudformation:props": {
@@ -2253,15 +2253,15 @@
                           },
                           "CdkBuildProject": {
                             "id": "CdkBuildProject",
-                            "path": "ApplicationPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject",
+                            "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject",
                             "children": {
                               "Role": {
                                 "id": "Role",
-                                "path": "ApplicationPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role",
+                                "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role",
                                 "children": {
                                   "Resource": {
                                     "id": "Resource",
-                                    "path": "ApplicationPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role/Resource",
+                                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role/Resource",
                                     "attributes": {
                                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                                       "aws:cdk:cloudformation:props": {
@@ -2286,11 +2286,11 @@
                                   },
                                   "DefaultPolicy": {
                                     "id": "DefaultPolicy",
-                                    "path": "ApplicationPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy",
+                                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy",
                                     "children": {
                                       "Resource": {
                                         "id": "Resource",
-                                        "path": "ApplicationPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy/Resource",
+                                        "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy/Resource",
                                         "attributes": {
                                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                                           "aws:cdk:cloudformation:props": {
@@ -2481,7 +2481,7 @@
                               },
                               "Resource": {
                                 "id": "Resource",
-                                "path": "ApplicationPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Resource",
+                                "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/Build/Synth/CdkBuildProject/Resource",
                                 "attributes": {
                                   "aws:cdk:cloudformation:type": "AWS::CodeBuild::Project",
                                   "aws:cdk:cloudformation:props": {
@@ -2538,19 +2538,19 @@
                   },
                   "UpdatePipeline": {
                     "id": "UpdatePipeline",
-                    "path": "ApplicationPipeline/Pipeline/Pipeline/UpdatePipeline",
+                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/UpdatePipeline",
                     "children": {
                       "SelfMutate": {
                         "id": "SelfMutate",
-                        "path": "ApplicationPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate",
+                        "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate",
                         "children": {
                           "CodePipelineActionRole": {
                             "id": "CodePipelineActionRole",
-                            "path": "ApplicationPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole",
+                            "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole",
                             "children": {
                               "Resource": {
                                 "id": "Resource",
-                                "path": "ApplicationPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/Resource",
+                                "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/Resource",
                                 "attributes": {
                                   "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                                   "aws:cdk:cloudformation:props": {
@@ -2590,11 +2590,11 @@
                               },
                               "DefaultPolicy": {
                                 "id": "DefaultPolicy",
-                                "path": "ApplicationPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy",
+                                "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy",
                                 "children": {
                                   "Resource": {
                                     "id": "Resource",
-                                    "path": "ApplicationPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy/Resource",
+                                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy/Resource",
                                     "attributes": {
                                       "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                                       "aws:cdk:cloudformation:props": {
@@ -2662,19 +2662,19 @@
               },
               "UpdatePipeline": {
                 "id": "UpdatePipeline",
-                "path": "ApplicationPipeline/Pipeline/UpdatePipeline",
+                "path": "ControlsFoundationTestApplicationPipeline/Pipeline/UpdatePipeline",
                 "children": {
                   "SelfMutation": {
                     "id": "SelfMutation",
-                    "path": "ApplicationPipeline/Pipeline/UpdatePipeline/SelfMutation",
+                    "path": "ControlsFoundationTestApplicationPipeline/Pipeline/UpdatePipeline/SelfMutation",
                     "children": {
                       "Role": {
                         "id": "Role",
-                        "path": "ApplicationPipeline/Pipeline/UpdatePipeline/SelfMutation/Role",
+                        "path": "ControlsFoundationTestApplicationPipeline/Pipeline/UpdatePipeline/SelfMutation/Role",
                         "children": {
                           "Resource": {
                             "id": "Resource",
-                            "path": "ApplicationPipeline/Pipeline/UpdatePipeline/SelfMutation/Role/Resource",
+                            "path": "ControlsFoundationTestApplicationPipeline/Pipeline/UpdatePipeline/SelfMutation/Role/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                               "aws:cdk:cloudformation:props": {
@@ -2699,11 +2699,11 @@
                           },
                           "DefaultPolicy": {
                             "id": "DefaultPolicy",
-                            "path": "ApplicationPipeline/Pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy",
+                            "path": "ControlsFoundationTestApplicationPipeline/Pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy",
                             "children": {
                               "Resource": {
                                 "id": "Resource",
-                                "path": "ApplicationPipeline/Pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource",
+                                "path": "ControlsFoundationTestApplicationPipeline/Pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource",
                                 "attributes": {
                                   "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                                   "aws:cdk:cloudformation:props": {
@@ -2923,7 +2923,7 @@
                       },
                       "Resource": {
                         "id": "Resource",
-                        "path": "ApplicationPipeline/Pipeline/UpdatePipeline/SelfMutation/Resource",
+                        "path": "ControlsFoundationTestApplicationPipeline/Pipeline/UpdatePipeline/SelfMutation/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::CodeBuild::Project",
                           "aws:cdk:cloudformation:props": {
@@ -2945,7 +2945,7 @@
                             },
                             "source": {
                               "type": "CODEPIPELINE",
-                              "buildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g aws-cdk\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk -a . deploy ApplicationPipeline --require-approval=never --verbose\"\n      ]\n    }\n  }\n}"
+                              "buildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g aws-cdk\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk -a . deploy ControlsFoundationTestApplicationPipeline --require-approval=never --verbose\"\n      ]\n    }\n  }\n}"
                             },
                             "encryptionKey": {
                               "Fn::GetAtt": [
@@ -2974,7 +2974,7 @@
               },
               "Assets": {
                 "id": "Assets",
-                "path": "ApplicationPipeline/Pipeline/Assets",
+                "path": "ControlsFoundationTestApplicationPipeline/Pipeline/Assets",
                 "constructInfo": {
                   "fqn": "@aws-cdk/core.Construct",
                   "version": "1.122.0"
@@ -2988,11 +2988,11 @@
           },
           "CDKMetadata": {
             "id": "CDKMetadata",
-            "path": "ApplicationPipeline/CDKMetadata",
+            "path": "ControlsFoundationTestApplicationPipeline/CDKMetadata",
             "children": {
               "Default": {
                 "id": "Default",
-                "path": "ApplicationPipeline/CDKMetadata/Default",
+                "path": "ControlsFoundationTestApplicationPipeline/CDKMetadata/Default",
                 "constructInfo": {
                   "fqn": "@aws-cdk/core.CfnResource",
                   "version": "1.122.0"
@@ -3000,7 +3000,7 @@
               },
               "Condition": {
                 "id": "Condition",
-                "path": "ApplicationPipeline/CDKMetadata/Condition",
+                "path": "ControlsFoundationTestApplicationPipeline/CDKMetadata/Condition",
                 "constructInfo": {
                   "fqn": "@aws-cdk/core.CfnCondition",
                   "version": "1.122.0"
