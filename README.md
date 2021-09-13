@@ -1,16 +1,9 @@
 
-# Welcome to your CDK Python project!
+# AWS Controls Foundation - Controls Pipeline Repository
 
-This is a blank project for Python development with CDK.
+This is the Conrols Pipeline Respository for the AWS Controls Foundation. This is the repository that will host the security controls such as AWS Config Conformance Packs, GuardDuty, IAM Access Analyzer, and Macie.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+Follow the setup steps below to properly configure the environment and first deployment of the infrastructure.
 
 To manually create a virtualenv on MacOS and Linux:
 
@@ -36,11 +29,23 @@ Once the virtualenv is activated, you can install the required dependencies.
 ```
 $ pip install -r requirements.txt
 ```
+Now that the environment is configured, the last step before deploying is you need to enter your desired git owner and git repos in the parameters section of the app.py file.
+```
+# Input parameters. Update according to your github owner and repo.
+github_owner = <github-account>
+controls_repo = <controls-pipeline-repo-name>
+application_repo = <application-pipeline-repo-name>
+```
 
-At this point you can now synthesize the CloudFormation template for this code.
+At this point you can now deploy the CloudFormation template for this code.
 
 ```
-$ cdk synth
+$ cdk deploy
+```
+
+Now that you have deployed the two pipelines, you need to manually authenticate the pipelines against their respective git repos.
+```
+After running cdk deploy, the 2 pipeline structures will be set up, but you will ned to go into the console and manually authenticate each pipeline against git by editing the source artifact stage of the pipeline. Once they are authenticated, you will not need to perform this manual step again unless you rebuild the source artifact construct.
 ```
 
 To add additional dependencies, for example other CDK libraries, just add
