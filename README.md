@@ -1,7 +1,7 @@
 
-# Welcome to your CDK Python project!
+# AWS Controls Foundation - Controls Pipeline Repository
 
-This is a blank project for Python development with CDK.
+This is the Conrols Pipeline Respository for the AWS Controls Foundation. This is the repository that will host the security controls such as AWS Config Conformance Packs, GuardDuty, IAM Access Analyzer, and Macie.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
