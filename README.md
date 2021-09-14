@@ -4,6 +4,10 @@ This is the Conrols Pipeline Respository for the AWS Controls Foundation. This i
 
 This is the Conrols Pipeline Respository for the AWS Controls Foundation. This is the repository that will host the security controls such as AWS Config Conformance Packs, GuardDuty, IAM Access Analyzer, and Macie.
 
+## Prior to starting the setup of the CDK environment, ensure that you have manually created the following components:
+* 2 github repos that will be connected to your Controls and Application Pipelines
+* S3 Bucket with the .yaml file of your desired custom Conformance Pack
+
 Follow the setup steps below to properly configure the environment and first deployment of the infrastructure.
 
 To manually create a virtualenv on MacOS and Linux:
@@ -41,12 +45,6 @@ application_repo = <application-pipeline-repo-name>
 At this point you can now deploy the CloudFormation template for this code.
 
 ```
-$ cdk deploy
-```
-
-Now that you have deployed the two pipelines, you need to manually authenticate the pipelines against their respective git repos.
-```
-
 $ cdk deploy
 ```
 

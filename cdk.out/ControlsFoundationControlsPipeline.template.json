@@ -1106,10 +1106,42 @@
         "aws:cdk:path": "ControlsFoundationControlsPipeline/Pipeline/UpdatePipeline/SelfMutation/Resource"
       }
     },
+    "ControlsFoundationTestPack": {
+      "Type": "AWS::Config::ConformancePack",
+      "Properties": {
+        "ConformancePackName": "s3-guardrails-conformance-pack",
+        "DeliveryS3Bucket": "controls-foundation-config-conformance-bucket",
+        "TemplateS3Uri": "s3://controls-foundation-conformance-packs-personal/s3-guardrails-conformance-pack.yaml"
+      },
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Controls Foundation Test Pack"
+      }
+    },
+    "TestMacieSession": {
+      "Type": "AWS::Macie::Session",
+      "Properties": {
+        "FindingPublishingFrequency": "FIFTEEN_MINUTES",
+        "Status": "ENABLED"
+      },
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Test Macie Session"
+      }
+    },
+    "ControlsFoundationMacie": {
+      "Type": "AWS::Macie::CustomDataIdentifier",
+      "Properties": {
+        "Name": "controls-foundation-macie-test-pid",
+        "Regex": "(\\d){3}-(\\d){2}-(\\d){4}",
+        "Description": "This is a Macie custom identifier that PID data in S3 buckets."
+      },
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Controls Foundation Macie"
+      }
+    },
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
-        "Analytics": "v2:deflate64:H4sIAAAAAAAA/0WPSW7DMAxFz5K9wjQJ0nVTL7MxXOQAqsSijGTJ0IAiEHT3arDbFR+nz88jHE8neNm98R+/F1IdkrAOIX0ELhQbrPHBRRHY8GUm9DY6gZVLQ1IgazKri2VJog/cCWsMitrw0MfWlNWJhRbUZIr8uFLV2jgzNXtIN3zWag1XTdzXpEFm/gzpPQqFzU+nzIjPkCarm1iLo9Ukmkqn3K5/RtLy//To7AP7ZyvmzDaHxccg1Z/L+yJ5wC29to/K9PgM39YczvAKl93DE+1dNIFmhKnHX2Ojp35eAQAA"
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/0VQwU7DMAz9lt2zjG2CM6NcEJeqEx8QEhe8NkkVJ0JTlX8nTls4+dl+fvbzUR5PJ/mwe1Y/tNdmOMzaB5DzNSo9iMY7iiHpKJredUA+BQ2MS8NgRO+y4MEyZICiCto7B5obJBfamgpmTDjBiK7ItytirQ1nMViS8zvcucrhMqIiTirIgs5yfkl6gHrPgrJAZeXc+bGK1dj6EXVVWVCu2z8TjuZ/dRv8DRZnK2Sa6/Frvbz3wSqnoeVPWKWx3F06VyBiQ0xKFL19VVG9GXARe4SQs9hsFjONGf6sfkxGRdjSS31LYbf3+O3d4Syf5OPuRoj7kIqWBdkt8Rce76dTowEAAA=="
       },
       "Metadata": {
         "aws:cdk:path": "ControlsFoundationControlsPipeline/CDKMetadata/Default"

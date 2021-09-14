@@ -1483,6 +1483,53 @@
               "version": "1.122.0"
             }
           },
+          "Controls Foundation Test Pack": {
+            "id": "Controls Foundation Test Pack",
+            "path": "ControlsFoundationControlsPipeline/Controls Foundation Test Pack",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Config::ConformancePack",
+              "aws:cdk:cloudformation:props": {
+                "conformancePackName": "s3-guardrails-conformance-pack",
+                "deliveryS3Bucket": "controls-foundation-config-conformance-bucket",
+                "templateS3Uri": "s3://controls-foundation-conformance-packs-personal/s3-guardrails-conformance-pack.yaml"
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-config.CfnConformancePack",
+              "version": "1.122.0"
+            }
+          },
+          "Test Macie Session": {
+            "id": "Test Macie Session",
+            "path": "ControlsFoundationControlsPipeline/Test Macie Session",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Macie::Session",
+              "aws:cdk:cloudformation:props": {
+                "findingPublishingFrequency": "FIFTEEN_MINUTES",
+                "status": "ENABLED"
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-macie.CfnSession",
+              "version": "1.122.0"
+            }
+          },
+          "Controls Foundation Macie": {
+            "id": "Controls Foundation Macie",
+            "path": "ControlsFoundationControlsPipeline/Controls Foundation Macie",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Macie::CustomDataIdentifier",
+              "aws:cdk:cloudformation:props": {
+                "name": "controls-foundation-macie-test-pid",
+                "regex": "(\\d){3}-(\\d){2}-(\\d){4}",
+                "description": "This is a Macie custom identifier that PID data in S3 buckets."
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-macie.CfnCustomDataIdentifier",
+              "version": "1.122.0"
+            }
+          },
           "CDKMetadata": {
             "id": "CDKMetadata",
             "path": "ControlsFoundationControlsPipeline/CDKMetadata",
