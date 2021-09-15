@@ -1117,6 +1117,327 @@
         "aws:cdk:path": "ControlsFoundationControlsPipeline/Controls Foundation Test Pack"
       }
     },
+    "ConfigRuleDetectiveServiceRoleF0A968DB": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSConfigRulesExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Config-Rule-Detective/ServiceRole/Resource"
+      }
+    },
+    "ConfigRuleDetective18B2231E": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3Bucket68EA1D20"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3VersionKey78C43689"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3VersionKey78C43689"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "ConfigRuleDetectiveServiceRoleF0A968DB",
+            "Arn"
+          ]
+        },
+        "Handler": "config_custom_rule_detective.handler",
+        "Runtime": "python3.7"
+      },
+      "DependsOn": [
+        "ConfigRuleDetectiveServiceRoleF0A968DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Config-Rule-Detective/Resource",
+        "aws:asset:path": "asset.5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140c",
+        "aws:asset:property": "Code"
+      }
+    },
+    "ConfigRuleDetectivePermissionBA132D68": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ConfigRuleDetective18B2231E",
+            "Arn"
+          ]
+        },
+        "Principal": "config.amazonaws.com"
+      },
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Config-Rule-Detective/Permission"
+      }
+    },
+    "ConfigRuleReactiveServiceRole9E1DCA9C": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSConfigRulesExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Config-Rule-Reactive/ServiceRole/Resource"
+      }
+    },
+    "ConfigRuleReactive211A730E": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3Bucket68EA1D20"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3VersionKey78C43689"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3VersionKey78C43689"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "ConfigRuleReactiveServiceRole9E1DCA9C",
+            "Arn"
+          ]
+        },
+        "Handler": "config_custom_rule_reactive.handler",
+        "Runtime": "python3.7"
+      },
+      "DependsOn": [
+        "ConfigRuleReactiveServiceRole9E1DCA9C"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Config-Rule-Reactive/Resource",
+        "aws:asset:path": "asset.5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140c",
+        "aws:asset:property": "Code"
+      }
+    },
+    "ConfigRuleReactivePermission68A11FAC": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ConfigRuleReactive211A730E",
+            "Arn"
+          ]
+        },
+        "Principal": "config.amazonaws.com"
+      },
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Config-Rule-Reactive/Permission"
+      }
+    },
+    "DetectEC2TagViolation8CD2117C": {
+      "Type": "AWS::Config::ConfigRule",
+      "Properties": {
+        "Source": {
+          "Owner": "CUSTOM_LAMBDA",
+          "SourceDetails": [
+            {
+              "EventSource": "aws.config",
+              "MessageType": "ConfigurationItemChangeNotification"
+            },
+            {
+              "EventSource": "aws.config",
+              "MessageType": "OversizedConfigurationItemChangeNotification"
+            },
+            {
+              "EventSource": "aws.config",
+              "MessageType": "ScheduledNotification"
+            }
+          ],
+          "SourceIdentifier": {
+            "Fn::GetAtt": [
+              "ConfigRuleDetective18B2231E",
+              "Arn"
+            ]
+          }
+        },
+        "ConfigRuleName": "DetectEc2TagViolation",
+        "Description": "Detect when EC2 instances do not have an 'sdlc_env' tag attached",
+        "Scope": {
+          "TagKey": "TEST-EC2_CUSTOM-CONFIG-RULE"
+        }
+      },
+      "DependsOn": [
+        "ConfigRuleDetectivePermissionBA132D68",
+        "ConfigRuleDetective18B2231E",
+        "ConfigRuleDetectiveServiceRoleF0A968DB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Detect EC2 Tag Violation/Resource"
+      }
+    },
+    "ReacttoEC2TagViolationF039FD74": {
+      "Type": "AWS::Config::ConfigRule",
+      "Properties": {
+        "Source": {
+          "Owner": "CUSTOM_LAMBDA",
+          "SourceDetails": [
+            {
+              "EventSource": "aws.config",
+              "MessageType": "ConfigurationItemChangeNotification"
+            },
+            {
+              "EventSource": "aws.config",
+              "MessageType": "OversizedConfigurationItemChangeNotification"
+            },
+            {
+              "EventSource": "aws.config",
+              "MessageType": "ScheduledNotification"
+            }
+          ],
+          "SourceIdentifier": {
+            "Fn::GetAtt": [
+              "ConfigRuleReactive211A730E",
+              "Arn"
+            ]
+          }
+        },
+        "ConfigRuleName": "ReactToEc2TagViolation",
+        "Description": "React to when EC2 instances do not have an 'sdlc_env' tag attached"
+      },
+      "DependsOn": [
+        "ConfigRuleReactivePermission68A11FAC",
+        "ConfigRuleReactive211A730E",
+        "ConfigRuleReactiveServiceRole9E1DCA9C"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/React to EC2 Tag Violation/Resource"
+      }
+    },
     "TestMacieSession": {
       "Type": "AWS::Macie::Session",
       "Properties": {
@@ -1138,15 +1459,38 @@
         "aws:cdk:path": "ControlsFoundationControlsPipeline/Controls Foundation Macie"
       }
     },
+    "AccountIAMAccessAnalyzer": {
+      "Type": "AWS::AccessAnalyzer::Analyzer",
+      "Properties": {
+        "Type": "ACCOUNT"
+      },
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Account IAM Access Analyzer"
+      }
+    },
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
-        "Analytics": "v2:deflate64:H4sIAAAAAAAA/0VQwU7DMAz9lt2zjG2CM6NcEJeqEx8QEhe8NkkVJ0JTlX8nTls4+dl+fvbzUR5PJ/mwe1Y/tNdmOMzaB5DzNSo9iMY7iiHpKJredUA+BQ2MS8NgRO+y4MEyZICiCto7B5obJBfamgpmTDjBiK7ItytirQ1nMViS8zvcucrhMqIiTirIgs5yfkl6gHrPgrJAZeXc+bGK1dj6EXVVWVCu2z8TjuZ/dRv8DRZnK2Sa6/Frvbz3wSqnoeVPWKWx3F06VyBiQ0xKFL19VVG9GXARe4SQs9hsFjONGf6sfkxGRdjSS31LYbf3+O3d4Syf5OPuRoj7kIqWBdkt8Rce76dTowEAAA=="
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/01Qy24CMQz8Fu4hFFB77kJVqepltagfYBJDzeaB4kQVXe2/N8kubU8eO5MZe9ZyvdnIh8UzfPFS6X41KB9QDocIqhd77ziGpKJomDHm4ZncWexProUAFiOG0nTIPgWFBecvmiJ5N4oimeU0coSgvHOoygPLiTa3ojCudEVDLhu3M6omMx5Fb1kO73gr01IaQ8ClqWAUvJXDLqkeYxnOaCo74CxAYOXQeVN1a229IVUFJzTWRY6JjP7bog3+ktesrAkWmjvRWQ7TFScfLDiFbc0rcfS2S+YeRSaWbhQG7FGDHF6Tm67O7/9xi8ESc82Nt0socbOsqQsLirD6HbBSqni1eoEIbxpdpBNhyJErlSngwNy+MZSgmxmP4p5xTnKv+9+cP64aIt7bpm40jqK9xU/vVlv5JB8XFyZahpRtLMpuqj+Wx1XzOgIAAA=="
       },
       "Metadata": {
         "aws:cdk:path": "ControlsFoundationControlsPipeline/CDKMetadata/Default"
       },
       "Condition": "CDKMetadataAvailable"
+    }
+  },
+  "Parameters": {
+    "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3Bucket68EA1D20": {
+      "Type": "String",
+      "Description": "S3 bucket for asset \"5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140c\""
+    },
+    "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3VersionKey78C43689": {
+      "Type": "String",
+      "Description": "S3 key for asset version \"5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140c\""
+    },
+    "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cArtifactHash99C221E7": {
+      "Type": "String",
+      "Description": "Artifact hash for asset \"5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140c\""
     }
   },
   "Conditions": {

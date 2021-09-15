@@ -1,4 +1,3 @@
-# Import packages.
 import boto3
 
 # Initialize Paraneters
@@ -17,6 +16,6 @@ def handler(event, context):
         # Compile a list of instance IDs of non_compliant instances.
         for detail in details["EvaluationResults"]:
             instanceIds.append(detail["EvaluationResultIdentifier"]["EvaluationResultQualifier"]["ResourceId"])
-        # Stop each instance that is non_compliant.
+        # For each non-compliant insta
         for instanceId in instanceIds:
             ec2.stop_instances(InstanceIds=instanceId)

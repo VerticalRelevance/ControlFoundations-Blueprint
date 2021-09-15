@@ -1499,6 +1499,523 @@
               "version": "1.122.0"
             }
           },
+          "Config-Rule-Detective": {
+            "id": "Config-Rule-Detective",
+            "path": "ControlsFoundationControlsPipeline/Config-Rule-Detective",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "ControlsFoundationControlsPipeline/Config-Rule-Detective/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ControlsFoundationControlsPipeline/Config-Rule-Detective/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          },
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSConfigRulesExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-iam.CfnRole",
+                      "version": "1.122.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-iam.Role",
+                  "version": "1.122.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "ControlsFoundationControlsPipeline/Config-Rule-Detective/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "ControlsFoundationControlsPipeline/Config-Rule-Detective/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.AssetStaging",
+                      "version": "1.122.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "ControlsFoundationControlsPipeline/Config-Rule-Detective/Code/AssetBucket",
+                    "children": {
+                      "Notifications": {
+                        "id": "Notifications",
+                        "path": "ControlsFoundationControlsPipeline/Config-Rule-Detective/Code/AssetBucket/Notifications",
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/core.Construct",
+                          "version": "1.122.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-s3.BucketBase",
+                      "version": "1.122.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-s3-assets.Asset",
+                  "version": "1.122.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ControlsFoundationControlsPipeline/Config-Rule-Detective/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Ref": "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3Bucket68EA1D20"
+                      },
+                      "s3Key": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            {
+                              "Fn::Select": [
+                                0,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3VersionKey78C43689"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Fn::Select": [
+                                1,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3VersionKey78C43689"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    "role": {
+                      "Fn::GetAtt": [
+                        "ConfigRuleDetectiveServiceRoleF0A968DB",
+                        "Arn"
+                      ]
+                    },
+                    "handler": "config_custom_rule_detective.handler",
+                    "runtime": "python3.7"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-lambda.CfnFunction",
+                  "version": "1.122.0"
+                }
+              },
+              "Permission": {
+                "id": "Permission",
+                "path": "ControlsFoundationControlsPipeline/Config-Rule-Detective/Permission",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunction",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "ConfigRuleDetective18B2231E",
+                        "Arn"
+                      ]
+                    },
+                    "principal": "config.amazonaws.com"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-lambda.CfnPermission",
+                  "version": "1.122.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-lambda.Function",
+              "version": "1.122.0"
+            }
+          },
+          "AssetParameters": {
+            "id": "AssetParameters",
+            "path": "ControlsFoundationControlsPipeline/AssetParameters",
+            "children": {
+              "5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140c": {
+                "id": "5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140c",
+                "path": "ControlsFoundationControlsPipeline/AssetParameters/5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140c",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "ControlsFoundationControlsPipeline/AssetParameters/5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140c/S3Bucket",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.CfnParameter",
+                      "version": "1.122.0"
+                    }
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "ControlsFoundationControlsPipeline/AssetParameters/5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140c/S3VersionKey",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.CfnParameter",
+                      "version": "1.122.0"
+                    }
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "ControlsFoundationControlsPipeline/AssetParameters/5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140c/ArtifactHash",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.CfnParameter",
+                      "version": "1.122.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Construct",
+                  "version": "1.122.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Construct",
+              "version": "1.122.0"
+            }
+          },
+          "Config-Rule-Reactive": {
+            "id": "Config-Rule-Reactive",
+            "path": "ControlsFoundationControlsPipeline/Config-Rule-Reactive",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "ControlsFoundationControlsPipeline/Config-Rule-Reactive/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ControlsFoundationControlsPipeline/Config-Rule-Reactive/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          },
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSConfigRulesExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-iam.CfnRole",
+                      "version": "1.122.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-iam.Role",
+                  "version": "1.122.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "ControlsFoundationControlsPipeline/Config-Rule-Reactive/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "ControlsFoundationControlsPipeline/Config-Rule-Reactive/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.AssetStaging",
+                      "version": "1.122.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "ControlsFoundationControlsPipeline/Config-Rule-Reactive/Code/AssetBucket",
+                    "children": {
+                      "Notifications": {
+                        "id": "Notifications",
+                        "path": "ControlsFoundationControlsPipeline/Config-Rule-Reactive/Code/AssetBucket/Notifications",
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/core.Construct",
+                          "version": "1.122.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-s3.BucketBase",
+                      "version": "1.122.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-s3-assets.Asset",
+                  "version": "1.122.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ControlsFoundationControlsPipeline/Config-Rule-Reactive/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Ref": "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3Bucket68EA1D20"
+                      },
+                      "s3Key": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            {
+                              "Fn::Select": [
+                                0,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3VersionKey78C43689"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Fn::Select": [
+                                1,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParameters5ac998e84e6bb5e42925c51fc53113d5d2f38eaae2bee4c05af480ddd6af140cS3VersionKey78C43689"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    "role": {
+                      "Fn::GetAtt": [
+                        "ConfigRuleReactiveServiceRole9E1DCA9C",
+                        "Arn"
+                      ]
+                    },
+                    "handler": "config_custom_rule_reactive.handler",
+                    "runtime": "python3.7"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-lambda.CfnFunction",
+                  "version": "1.122.0"
+                }
+              },
+              "Permission": {
+                "id": "Permission",
+                "path": "ControlsFoundationControlsPipeline/Config-Rule-Reactive/Permission",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunction",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "ConfigRuleReactive211A730E",
+                        "Arn"
+                      ]
+                    },
+                    "principal": "config.amazonaws.com"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-lambda.CfnPermission",
+                  "version": "1.122.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-lambda.Function",
+              "version": "1.122.0"
+            }
+          },
+          "Detect EC2 Tag Violation": {
+            "id": "Detect EC2 Tag Violation",
+            "path": "ControlsFoundationControlsPipeline/Detect EC2 Tag Violation",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ControlsFoundationControlsPipeline/Detect EC2 Tag Violation/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Config::ConfigRule",
+                  "aws:cdk:cloudformation:props": {
+                    "source": {
+                      "owner": "CUSTOM_LAMBDA",
+                      "sourceDetails": [
+                        {
+                          "eventSource": "aws.config",
+                          "messageType": "ConfigurationItemChangeNotification"
+                        },
+                        {
+                          "eventSource": "aws.config",
+                          "messageType": "OversizedConfigurationItemChangeNotification"
+                        },
+                        {
+                          "eventSource": "aws.config",
+                          "messageType": "ScheduledNotification"
+                        }
+                      ],
+                      "sourceIdentifier": {
+                        "Fn::GetAtt": [
+                          "ConfigRuleDetective18B2231E",
+                          "Arn"
+                        ]
+                      }
+                    },
+                    "configRuleName": "DetectEc2TagViolation",
+                    "description": "Detect when EC2 instances do not have an 'sdlc_env' tag attached",
+                    "scope": {
+                      "tagKey": "TEST-EC2_CUSTOM-CONFIG-RULE"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-config.CfnConfigRule",
+                  "version": "1.122.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-config.CustomRule",
+              "version": "1.122.0"
+            }
+          },
+          "React to EC2 Tag Violation": {
+            "id": "React to EC2 Tag Violation",
+            "path": "ControlsFoundationControlsPipeline/React to EC2 Tag Violation",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ControlsFoundationControlsPipeline/React to EC2 Tag Violation/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Config::ConfigRule",
+                  "aws:cdk:cloudformation:props": {
+                    "source": {
+                      "owner": "CUSTOM_LAMBDA",
+                      "sourceDetails": [
+                        {
+                          "eventSource": "aws.config",
+                          "messageType": "ConfigurationItemChangeNotification"
+                        },
+                        {
+                          "eventSource": "aws.config",
+                          "messageType": "OversizedConfigurationItemChangeNotification"
+                        },
+                        {
+                          "eventSource": "aws.config",
+                          "messageType": "ScheduledNotification"
+                        }
+                      ],
+                      "sourceIdentifier": {
+                        "Fn::GetAtt": [
+                          "ConfigRuleReactive211A730E",
+                          "Arn"
+                        ]
+                      }
+                    },
+                    "configRuleName": "ReactToEc2TagViolation",
+                    "description": "React to when EC2 instances do not have an 'sdlc_env' tag attached"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-config.CfnConfigRule",
+                  "version": "1.122.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-config.CustomRule",
+              "version": "1.122.0"
+            }
+          },
           "Test Macie Session": {
             "id": "Test Macie Session",
             "path": "ControlsFoundationControlsPipeline/Test Macie Session",
@@ -1527,6 +2044,20 @@
             },
             "constructInfo": {
               "fqn": "@aws-cdk/aws-macie.CfnCustomDataIdentifier",
+              "version": "1.122.0"
+            }
+          },
+          "Account IAM Access Analyzer": {
+            "id": "Account IAM Access Analyzer",
+            "path": "ControlsFoundationControlsPipeline/Account IAM Access Analyzer",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::AccessAnalyzer::Analyzer",
+              "aws:cdk:cloudformation:props": {
+                "type": "ACCOUNT"
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-accessanalyzer.CfnAnalyzer",
               "version": "1.122.0"
             }
           },

@@ -9,3 +9,4 @@ aws-cdk.aws_config
 aws-cdk.aws_guardduty
 aws-cdk.aws_macie
 aws-cdk.aws_accessanalyzer
+boto3

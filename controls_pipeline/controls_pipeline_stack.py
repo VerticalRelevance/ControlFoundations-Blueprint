@@ -1,3 +1,4 @@
+# Import aws_cdk packages.
 from aws_cdk import (
     core as cdk,
     aws_codepipeline as codepipeline,
@@ -60,4 +61,6 @@ class ControlsPipelineStack(cdk.Stack):
     def deploy_controls(self):
         # Deploy conformance pack.
         deploy_config_conformance_pack(self)
+        deploy_config_custom_rules(self)
         deploy_macie(self)
+        deploy_iam_access_analyzer(self)

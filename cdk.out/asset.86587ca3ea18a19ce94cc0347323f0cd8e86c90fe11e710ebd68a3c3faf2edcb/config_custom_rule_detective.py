@@ -47,5 +47,3 @@ def evaluate_compliance(config_item, rule_parameters):
             return "COMPLIANT"
         else:    
             return "NOT_APPLICABLE"
-    else:
-        return "COMPLIANT"
