@@ -45,7 +45,7 @@ application_repo = <application-pipeline-repo-name>
 At this point you can now deploy the CloudFormation template for this code.
 
 ```
-$ cdk deploy
+$ cdk deploy --ControlsFoundationControlsPipeline
 ```
 
 Now that you have deployed the two pipelines, you need to manually authenticate the pipelines against their respective git repos.

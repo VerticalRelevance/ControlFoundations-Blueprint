@@ -60,11 +60,35 @@ def deploy_config_custom_rules(self):
         periodic = True
     )
 
-def deploy_guardduty():
-    # Insert guardduty construct call here.
-    print("GuardDuty here.")
+def deploy_guardduty(self):
+    # Create GuardDuty findings bucket.
+    guardduty_findings_bucket = aws_s3.Bucket(self, "Controls-Foundation-GuardDuty-Findings", 
+        bucket_name="controls-foundation-guardduty-findings"
+    )
+    # Create GuardDuty threat-intel-scripts bucket.
+    guardduty_findings_bucket = aws_s3.Bucket(self, "Controls-Foundation-GuardDuty-Threat-Intel-Scripts", 
+        bucket_name="controls-foundation-guardduty-threat-intel-scripts"
+    )
+    # Create account-level GuardDuty detector.
+    guardduty_detector = aws_guardduty.CfnDetector(self, "Baseline GuardDuty Detector",
+        enable = True,
+        finding_publishing_frequency = "ONE_HOUR"
+    )
+    # Create GuardDuty threat intel list containing only my IP.
+    threat_intel_script_uri = "s3://controls-foundation-guardduty-threat-intel-scripts/my_ip.txt"
+    guardduty_detector_id = "40bdf400eb59b19eac1e41600ad9edb3"
+    threat_intel_set = aws_guardduty.CfnThreatIntelSet(self, "My IP Threat Intel Set",
+        activate = True,
+        detector_id = guardduty_detector_id,
+        format = "TXT",
+        location = threat_intel_script_uri
+    )
 
 def deploy_macie(self):
+    # Create GuardDuty findings bucket.
+    macie_findings_bucket = aws_s3.Bucket(self, "Controls-Foundation-Macie-Findings", 
+        bucket_name="controls-foundation-macie-findings"
+    )
     # Start Macie session
     session = aws_macie.CfnSession(self, "Test Macie Session", 
         finding_publishing_frequency = "FIFTEEN_MINUTES",
@@ -81,4 +105,5 @@ def deploy_iam_access_analyzer(self):
     # Create an account-level analyzer
     account_analyzer = aws_accessanalyzer.CfnAnalyzer(self, "Account IAM Access Analyzer",
         type = "ACCOUNT"
-    )
+)
+

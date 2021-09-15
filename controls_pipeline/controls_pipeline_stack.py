@@ -42,17 +42,17 @@ class ControlsPipelineStack(cdk.Stack):
         # Define pipeline synth action.
         pipeline_synth_action = pipelines.SimpleSynthAction(
             install_commands=[
-                'npm install -g aws-cdk', # Installs the cdk cli on Codebuild
-                'pip install -r requirements.txt' # Instructs Codebuild to install required packages
+                "npm install -g aws-cdk", # Installs the cdk cli on Codebuild
+                "pip install -r requirements.txt" # Instructs Codebuild to install required packages
             ],
-            synth_command='npx cdk synth',
+            synth_command="npx cdk synth",
             source_artifact=pipeline_source_artifact, # Where to get source code to build
             cloud_assembly_artifact=pipeline_cloud_assembly_artifact, # Where to place built source
         )
 
         # Create the pipeline.
         pipeline = pipelines.CdkPipeline(
-            self, 'Pipeline',
+            self, "Pipeline",
             cloud_assembly_artifact = pipeline_cloud_assembly_artifact,
             source_action = pipeline_source_action,
             synth_action = pipeline_synth_action
@@ -62,5 +62,6 @@ class ControlsPipelineStack(cdk.Stack):
         # Deploy conformance pack.
         deploy_config_conformance_pack(self)
         deploy_config_custom_rules(self)
+        deploy_guardduty(self)
         deploy_macie(self)
         deploy_iam_access_analyzer(self)

@@ -1438,6 +1438,61 @@
         "aws:cdk:path": "ControlsFoundationControlsPipeline/React to EC2 Tag Violation/Resource"
       }
     },
+    "ControlsFoundationGuardDutyFindingsF429E814": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "controls-foundation-guardduty-findings"
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Controls-Foundation-GuardDuty-Findings/Resource"
+      }
+    },
+    "ControlsFoundationGuardDutyThreatIntelScripts950AE71E": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "controls-foundation-guardduty-threat-intel-scripts"
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Controls-Foundation-GuardDuty-Threat-Intel-Scripts/Resource"
+      }
+    },
+    "BaselineGuardDutyDetector": {
+      "Type": "AWS::GuardDuty::Detector",
+      "Properties": {
+        "Enable": true,
+        "FindingPublishingFrequency": "ONE_HOUR"
+      },
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Baseline GuardDuty Detector"
+      }
+    },
+    "MyIPThreatIntelSet": {
+      "Type": "AWS::GuardDuty::ThreatIntelSet",
+      "Properties": {
+        "Activate": true,
+        "DetectorId": "40bdf400eb59b19eac1e41600ad9edb3",
+        "Format": "TXT",
+        "Location": "s3://controls-foundation-guardduty-threat-intel-scripts/my_ip.txt"
+      },
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/My IP Threat Intel Set"
+      }
+    },
+    "ControlsFoundationMacieFindingsF2127D64": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "controls-foundation-macie-findings"
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "ControlsFoundationControlsPipeline/Controls-Foundation-Macie-Findings/Resource"
+      }
+    },
     "TestMacieSession": {
       "Type": "AWS::Macie::Session",
       "Properties": {
@@ -1471,7 +1526,7 @@
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
-        "Analytics": "v2:deflate64:H4sIAAAAAAAA/01Qy24CMQz8Fu4hFFB77kJVqepltagfYBJDzeaB4kQVXe2/N8kubU8eO5MZe9ZyvdnIh8UzfPFS6X41KB9QDocIqhd77ziGpKJomDHm4ZncWexProUAFiOG0nTIPgWFBecvmiJ5N4oimeU0coSgvHOoygPLiTa3ojCudEVDLhu3M6omMx5Fb1kO73gr01IaQ8ClqWAUvJXDLqkeYxnOaCo74CxAYOXQeVN1a229IVUFJzTWRY6JjP7bog3+ktesrAkWmjvRWQ7TFScfLDiFbc0rcfS2S+YeRSaWbhQG7FGDHF6Tm67O7/9xi8ESc82Nt0socbOsqQsLirD6HbBSqni1eoEIbxpdpBNhyJErlSngwNy+MZSgmxmP4p5xTnKv+9+cP64aIt7bpm40jqK9xU/vVlv5JB8XFyZahpRtLMpuqj+Wx1XzOgIAAA=="
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/01Ry04DMQz8Fu5pClRwphQhVVxWLXyASdwSNo8qdoTKav+dxLsFTh4nk/FkfKNvbm/19dUDfNHC2H45mJRRD3sG06tNisS5GFZrIuR6eHTxqDaH2EGGgIy5NTukVLLBhusT69ilOKomWeUsEkM2KUY07YL0RJtb1Rgnd0LvYh3czUiGzHhUfSA9vOC5nbay9g6oNQJGRSs9PBbTI7fDGU3lEagKOAh62CUvulK75J0RwQmNYuS9OG//XHQ5fVabwppgo8WDO+ph+sUh5QDRYCd5FeIUdsVfoqjE1o3KQ3i3oIfnEqdf1/v/uMMcHJHkRqsFtLhJS+rqWCBbW/gsM59q6oaTBP/6kRF4Gxn9Hqu1AMahsPYoYmJDTD0Bw9ZiZHdwmOtyjKkUiODP35jbStYzHtVlGzXzje1/N/J2ssB4adfifRxVd+aPFJcrfa/vrj7JuUUudUxAvZvqD/pna5RkAgAA"
       },
       "Metadata": {
         "aws:cdk:path": "ControlsFoundationControlsPipeline/CDKMetadata/Default"

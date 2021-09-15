@@ -5,6 +5,7 @@ aws-cdk.aws_codepipeline_actions
 aws-cdk.pipelines
 aws-cdk.aws_codestarconnections
 aws-cdk.aws_s3
+aws-cdk.aws_vpc
 aws-cdk.aws_config
 aws-cdk.aws_guardduty
 aws-cdk.aws_macie

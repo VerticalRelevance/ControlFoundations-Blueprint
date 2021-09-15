@@ -2016,6 +2016,134 @@
               "version": "1.122.0"
             }
           },
+          "Controls-Foundation-GuardDuty-Findings": {
+            "id": "Controls-Foundation-GuardDuty-Findings",
+            "path": "ControlsFoundationControlsPipeline/Controls-Foundation-GuardDuty-Findings",
+            "children": {
+              "Notifications": {
+                "id": "Notifications",
+                "path": "ControlsFoundationControlsPipeline/Controls-Foundation-GuardDuty-Findings/Notifications",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Construct",
+                  "version": "1.122.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ControlsFoundationControlsPipeline/Controls-Foundation-GuardDuty-Findings/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketName": "controls-foundation-guardduty-findings"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-s3.CfnBucket",
+                  "version": "1.122.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-s3.Bucket",
+              "version": "1.122.0"
+            }
+          },
+          "Controls-Foundation-GuardDuty-Threat-Intel-Scripts": {
+            "id": "Controls-Foundation-GuardDuty-Threat-Intel-Scripts",
+            "path": "ControlsFoundationControlsPipeline/Controls-Foundation-GuardDuty-Threat-Intel-Scripts",
+            "children": {
+              "Notifications": {
+                "id": "Notifications",
+                "path": "ControlsFoundationControlsPipeline/Controls-Foundation-GuardDuty-Threat-Intel-Scripts/Notifications",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Construct",
+                  "version": "1.122.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ControlsFoundationControlsPipeline/Controls-Foundation-GuardDuty-Threat-Intel-Scripts/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketName": "controls-foundation-guardduty-threat-intel-scripts"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-s3.CfnBucket",
+                  "version": "1.122.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-s3.Bucket",
+              "version": "1.122.0"
+            }
+          },
+          "Baseline GuardDuty Detector": {
+            "id": "Baseline GuardDuty Detector",
+            "path": "ControlsFoundationControlsPipeline/Baseline GuardDuty Detector",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::GuardDuty::Detector",
+              "aws:cdk:cloudformation:props": {
+                "enable": true,
+                "findingPublishingFrequency": "ONE_HOUR"
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-guardduty.CfnDetector",
+              "version": "1.122.0"
+            }
+          },
+          "My IP Threat Intel Set": {
+            "id": "My IP Threat Intel Set",
+            "path": "ControlsFoundationControlsPipeline/My IP Threat Intel Set",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::GuardDuty::ThreatIntelSet",
+              "aws:cdk:cloudformation:props": {
+                "activate": true,
+                "detectorId": "40bdf400eb59b19eac1e41600ad9edb3",
+                "format": "TXT",
+                "location": "s3://controls-foundation-guardduty-threat-intel-scripts/my_ip.txt"
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-guardduty.CfnThreatIntelSet",
+              "version": "1.122.0"
+            }
+          },
+          "Controls-Foundation-Macie-Findings": {
+            "id": "Controls-Foundation-Macie-Findings",
+            "path": "ControlsFoundationControlsPipeline/Controls-Foundation-Macie-Findings",
+            "children": {
+              "Notifications": {
+                "id": "Notifications",
+                "path": "ControlsFoundationControlsPipeline/Controls-Foundation-Macie-Findings/Notifications",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Construct",
+                  "version": "1.122.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ControlsFoundationControlsPipeline/Controls-Foundation-Macie-Findings/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketName": "controls-foundation-macie-findings"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-s3.CfnBucket",
+                  "version": "1.122.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-s3.Bucket",
+              "version": "1.122.0"
+            }
+          },
           "Test Macie Session": {
             "id": "Test Macie Session",
             "path": "ControlsFoundationControlsPipeline/Test Macie Session",
