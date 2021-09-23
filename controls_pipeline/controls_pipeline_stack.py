@@ -14,6 +14,7 @@ from aws_cdk import (
     aws_config,
     aws_guardduty,
     aws_macie,
+    aws_iam,
     aws_accessanalyzer,
 )
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -90,7 +91,70 @@ class ControlsPipelineStack(cdk.Stack):
             owner=self.github_repo_owner,
             repo=self.github_repo_name,
         )
-
+        # Policy for deploying the cfn template from the pipeline.
+        self.pipeline_cfn_access_policy = aws_iam.PolicyStatement(
+            self,
+            effect = "Allow",
+            actions = ["cloudformation:DeleteStackInstances",
+                "cloudformation:ListExports",
+                "cloudformation:ListStackInstances",
+                "cloudformation:DescribeStackResource",
+                "cloudformation:UpdateStackSet",
+                "cloudformation:CreateChangeSet",
+                "cloudformation:ListTypeRegistrations",
+                "cloudformation:ContinueUpdateRollback",
+                "cloudformation:ListStackSetOperationResults",
+                "cloudformation:DescribeStackEvents",
+                "cloudformation:UpdateStack",
+                "cloudformation:DescribeChangeSet",
+                "cloudformation:CreateStackSet",
+                "cloudformation:ExecuteChangeSet",
+                "cloudformation:ListStackResources",
+                "cloudformation:DescribeStackInstance",
+                "cloudformation:DescribeStackResources",
+                "cloudformation:SignalResource",
+                "cloudformation:DescribeStacks",
+                "cloudformation:DescribeStackResourceDrifts",
+                "cloudformation:GetStackPolicy",
+                "cloudformation:GetTemplate",
+                "cloudformation:DeleteStack",
+                "cloudformation:ValidateTemplate",
+                "cloudformation:ListTypeVersions",
+                "cloudformation:RegisterType",
+                "cloudformation:CreateUploadBucket",
+                "cloudformation:DetectStackSetDrift",
+                "cloudformation:ImportStacksToStackSet",
+                "cloudformation:DescribeStackDriftDetectionStatus",
+                "cloudformation:DetectStackDrift",
+                "cloudformation:CancelUpdateStack",
+                "cloudformation:SetTypeDefaultVersion",
+                "cloudformation:UpdateStackInstances",
+                "cloudformation:ListStackSetOperations",
+                "cloudformation:ListTypes",
+                "cloudformation:UpdateTerminationProtection",
+                "cloudformation:RecordHandlerProgress",
+                "cloudformation:CreateStackInstances",
+                "cloudformation:DeregisterType",
+                "cloudformation:DeleteChangeSet",
+                "cloudformation:EstimateTemplateCost",
+                "cloudformation:DetectStackResourceDrift",
+                "cloudformation:DescribeStackSetOperation",
+                "cloudformation:DescribeAccountLimits",
+                "cloudformation:StopStackSetOperation",
+                "cloudformation:SetStackPolicy",
+                "cloudformation:ListStacks",
+                "cloudformation:DescribeType",
+                "cloudformation:ListImports",
+                "cloudformation:DeleteStackSet",
+                "cloudformation:DescribeTypeRegistration",
+                "cloudformation:GetTemplateSummary",
+                "cloudformation:DescribeStackSet",
+                "cloudformation:ListStackSets",
+                "cloudformation:CreateStack",
+                "cloudformation:TagResource",
+                "cloudformation:ListChangeSets"],
+                resources = ["*"]
+        )
         # Define pipeline synth action.
         pipeline_synth_action = pipelines.SimpleSynthAction(
             install_commands=[
@@ -101,6 +165,7 @@ class ControlsPipelineStack(cdk.Stack):
             synth_command="npx cdk synth",
             source_artifact=pipeline_source_artifact,  # Where to get source code to build
             cloud_assembly_artifact=pipeline_cloud_assembly_artifact,  # Where to place built source
+            role_policy_statements = [self.pipeline_cfn_access_policy]
         )
 
         # Create the pipeline.
