@@ -24,18 +24,24 @@ controls_stack = ControlsPipelineStack(
     controls_repo,
     env=common_env
 )
-# application_stack = ControlsPipelineStack(
-#    app,
-#    "ControlsFoundationTestApplicationPipeline",
-#    github_owner,
-#    application_repo,
-#    env=common_env,
-# )
+application_stack = ControlsPipelineStack(
+    app,
+    "ControlsFoundationApplicationPipeline",
+    github_owner,
+    application_repo,
+    env=common_env,
+)
 
 ## Create the pipelines.
-# controls_stack.deploy_pipeline()
-#
+controls_stack.configure_pipeline()
+application_stack.configure_pipeline()
+
 ## Deploy security controls.
-# controls_stack.deploy_controls()
+application_stack.configure_utility_s3_bucket()
+application_stack.configure_config_conformance_pack()
+application_stack.configure_config_custom_rules()
+application_stack.configure_guardduty()
+application_stack.configure_iam_access_analyzer()
+application_stack.configure_macie()
 
 app.synth()

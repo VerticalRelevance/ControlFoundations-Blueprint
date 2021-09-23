@@ -52,21 +52,21 @@ class ControlsPipelineStack(cdk.Stack):
         )
         self.local_conformance_pack_path = local_conformance_pack_path
 
-        self.configure_utility_s3_bucket()
-        self.configure_pipeline()
+        #self.configure_utility_s3_bucket()
+        #self.configure_pipeline()
 
-        self.configure_config_conformance_pack()
-        self.configure_config_custom_rules()
-        self.configure_guardduty()
-        self.configure_iam_access_analyzer()
-        self.configure_macie()
+        #self.configure_config_conformance_pack()
+        #self.configure_config_custom_rules()
+        #self.configure_guardduty()
+        #self.configure_iam_access_analyzer()
+        #self.configure_macie()
 
         # Turn off public access on any buckets created in this stack
         cdk.Aspects.of(self).add(S3BucketPublicAccessOffAspect())
 
     def configure_pipeline(self):
         # Create codestar connection to connect pipeline to git.
-        connection_name = "".join((self.github_repo_name, "_git_connection"))
+        connection_name = "".join((self.github_repo_name[19:len(self.github_repo_name)-2], "_git_connection"))
         pipeline_git_connection = codestarconnections.CfnConnection(
             self,
             connection_name,
@@ -95,6 +95,7 @@ class ControlsPipelineStack(cdk.Stack):
         pipeline_synth_action = pipelines.SimpleSynthAction(
             install_commands=[
                 "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
+                "pip install --upgrade pip",
                 "pip install -r requirements.txt",  # Instructs Codebuild to install required packages
             ],
             synth_command="npx cdk synth",
@@ -115,7 +116,7 @@ class ControlsPipelineStack(cdk.Stack):
         """Create an S3 bucket to store various stack assets in.
 
         Prevents us from creating tons of buckets for this one stack."""
-        self.utility_s3_bucket = aws_s3.Bucket(self, "UtilityS3Bucket")
+        self.utility_s3_bucket = aws_s3.Bucket(self, "UtilityS3Bucket", bucket_name="controls-blueprint-utility-bucket")
 
     def configure_config_conformance_pack(
         self,
@@ -128,7 +129,7 @@ class ControlsPipelineStack(cdk.Stack):
             self,
             "Controls Foundation Test Pack",
             conformance_pack_name="s3-guardrails-conformance-pack",
-            template_s3_uri=self.conformance_pack_asset.s3_url,
+            template_s3_uri=self.conformance_pack_asset.s3_object_url,
         )
 
     def configure_config_custom_rules(self):
