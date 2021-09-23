@@ -57,21 +57,26 @@ class ControlsPipelineStack(cdk.Stack):
         )
         self.local_conformance_pack_path = local_conformance_pack_path
 
-        #self.configure_utility_s3_bucket()
-        #self.configure_pipeline()
+        # self.configure_utility_s3_bucket()
+        # self.configure_pipeline()
 
-        #self.configure_config_conformance_pack()
-        #self.configure_config_custom_rules()
-        #self.configure_guardduty()
-        #self.configure_iam_access_analyzer()
-        #self.configure_macie()
+        # self.configure_config_conformance_pack()
+        # self.configure_config_custom_rules()
+        # self.configure_guardduty()
+        # self.configure_iam_access_analyzer()
+        # self.configure_macie()
 
         # Turn off public access on any buckets created in this stack
         cdk.Aspects.of(self).add(S3BucketPublicAccessOffAspect())
 
     def configure_pipeline(self):
         # Create codestar connection to connect pipeline to git.
-        connection_name = "".join((self.github_repo_name[19:len(self.github_repo_name)-2], "_git_connection"))
+        connection_name = "".join(
+            (
+                self.github_repo_name[19 : len(self.github_repo_name) - 2],
+                "_git_connection",
+            )
+        )
         pipeline_git_connection = codestarconnections.CfnConnection(
             self,
             connection_name,
@@ -99,7 +104,8 @@ class ControlsPipelineStack(cdk.Stack):
         self.pipeline_cfn_access_policy = aws_iam.PolicyStatement(
             self,
             # effect=aws_iam.Effect("ALLOW"), --> Default is allow.
-            actions=["cloudformation:DeleteStackInstances",
+            actions=[
+                "cloudformation:DeleteStackInstances",
                 "cloudformation:ListExports",
                 "cloudformation:ListStackInstances",
                 "cloudformation:DescribeStackResource",
@@ -156,8 +162,9 @@ class ControlsPipelineStack(cdk.Stack):
                 "cloudformation:ListStackSets",
                 "cloudformation:CreateStack",
                 "cloudformation:TagResource",
-                "cloudformation:ListChangeSets"],
-                resources=["*"]
+                "cloudformation:ListChangeSets",
+            ],
+            resources=["*"],
         )
         # Define pipeline synth action.
         pipeline_synth_action = pipelines.SimpleSynthAction(
@@ -169,7 +176,7 @@ class ControlsPipelineStack(cdk.Stack):
             synth_command="npx cdk synth",
             source_artifact=pipeline_source_artifact,  # Where to get source code to build
             cloud_assembly_artifact=pipeline_cloud_assembly_artifact,  # Where to place built source
-            role_policy_statements = [self.pipeline_cfn_access_policy]
+            role_policy_statements=[self.pipeline_cfn_access_policy],
         )
 
         # Create the pipeline.
@@ -185,7 +192,9 @@ class ControlsPipelineStack(cdk.Stack):
         """Create an S3 bucket to store various stack assets in.
 
         Prevents us from creating tons of buckets for this one stack."""
-        self.utility_s3_bucket = aws_s3.Bucket(self, "UtilityS3Bucket", bucket_name="controls-blueprint-utility-bucket")
+        self.utility_s3_bucket = aws_s3.Bucket(
+            self, "UtilityS3Bucket", bucket_name="controls-blueprint-utility-bucket"
+        )
 
     def configure_config_conformance_pack(
         self,
