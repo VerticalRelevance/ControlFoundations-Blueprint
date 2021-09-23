@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 
 import boto3
 import jsii
@@ -19,8 +20,12 @@ from aws_cdk import (
     aws_accessanalyzer,
 )
 
+#from control_broker import ControlBroker
+
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 SUPPLEMENTARY_FILES_DIR = os.path.join(CURRENT_DIR, "../supplementary_files")
+CONTROLS_SCRIPT_DIR = os.path.join(CURRENT_DIR, "controls_scripts")
+OPA_POLICIES_DIR = os.path.join(CONTROLS_SCRIPT_DIR, "opa_policies")
 DEFAULT_CONFORMANCE_PACK_FILE_PATH = os.path.join(
     SUPPLEMENTARY_FILES_DIR, "s3-guardrails-conformance-pack.yaml"
 )
@@ -101,7 +106,6 @@ class ControlsPipelineStack(cdk.Stack):
             owner=self.github_repo_owner,
             repo=self.github_repo_name,
         )
-        # Policy for deploying the cfn template from the pipeline.
         
         self.pipeline_synth_stage_policy = aws_iam.PolicyStatement(
             # effect=aws_iam.Effect("ALLOW") --> default is allow
@@ -207,6 +211,10 @@ class ControlsPipelineStack(cdk.Stack):
             configuration_changes=True,
             periodic=True,
         )
+
+#    def configure_control_broker(self):
+#        self.control_broker = ControlBroker(self, "ControlBroker")
+#        self.control_broker.add_opa_rule(Path(OPA_POLICIES_DIR))
 
     def configure_guardduty(self):
         # Create GuardDuty findings bucket.
