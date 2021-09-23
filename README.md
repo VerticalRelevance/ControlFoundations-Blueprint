@@ -56,7 +56,12 @@ After running cdk deploy, the 2 pipeline structures will be set up, but you will
 ned to go into the console and manually authenticate each pipeline against git
 by editing the source artifact stage of the pipeline. Once they are
 authenticated, you will not need to perform this manual step again unless you
-rebuild the source artifact construct.
+rebuild the source artifact construct. See [these AWS docs](https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-update.html) for instructions on doing this. Once the connection
+is set up, you may have to start a new run of the pipeline manually by clicking
+"Release Change" on the pipeline page(s) of the console, or push some code to
+kick off a new pipeline run automatically.
+
+## Development/Contribution
 
 To add additional dependencies, for example other CDK libraries, just add
 them to your `requirements.txt` file and rerun the `pip install -r requirements.txt`

@@ -1,3 +1,4 @@
+import logging
 import os
 
 import boto3
@@ -17,6 +18,7 @@ from aws_cdk import (
     aws_iam,
     aws_accessanalyzer,
 )
+
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 SUPPLEMENTARY_FILES_DIR = os.path.join(CURRENT_DIR, "../supplementary_files")
 DEFAULT_CONFORMANCE_PACK_FILE_PATH = os.path.join(
@@ -25,6 +27,8 @@ DEFAULT_CONFORMANCE_PACK_FILE_PATH = os.path.join(
 DEFAULT_GUARDDUTY_THREAT_INTEL_SCRIPT_PATH = os.path.join(
     SUPPLEMENTARY_FILES_DIR, "threat-intel-my-ip.txt"
 )
+
+logger = logging.getLogger(__name__)
 
 
 @jsii.implements(cdk.IAspect)
@@ -253,13 +257,22 @@ class ControlsPipelineStack(cdk.Stack):
         self.guardduty_findings_bucket = aws_s3.Bucket(
             self, "Controls-Foundation-GuardDuty-Threat-Intel-Scripts"
         )
-        # Create account-level GuardDuty detector.
-        self.guardduty_detector = aws_guardduty.CfnDetector(
-            self,
-            "Baseline GuardDuty Detector",
-            enable=True,
-            finding_publishing_frequency="ONE_HOUR",
-        )
+
+        # We cannot create multiple detectors in a single account/region
+        guardduty_client = boto3.client("guardduty")
+        existing_detector_id = guardduty_client.list_detectors().get(
+            "DetectorIds", [None]
+        )[0]
+        if existing_detector_id is None:
+            # Create account-level GuardDuty detector.
+            self.guardduty_detector = aws_guardduty.CfnDetector(
+                self,
+                "Baseline GuardDuty Detector",
+                enable=True,
+                finding_publishing_frequency="ONE_HOUR",
+            )
+            existing_detector_id = self.guardduty_detector.ref
+
         self.guardduty_threat_intel_asset = aws_s3_assets.Asset(
             self,
             "GuardDutyThreatIntelAsset",
@@ -270,34 +283,60 @@ class ControlsPipelineStack(cdk.Stack):
             self,
             "My IP Threat Intel Set",
             activate=True,
-            detector_id=self.guardduty_detector.ref,
+            # Will either be a ref to the new detector or the pre-existing
+            # detector ID
+            detector_id=existing_detector_id,
             format="TXT",
-            location=self.guardduty_threat_intel_asset.s3_url,
+            location=self.guardduty_threat_intel_asset.s3_object_url,
         )
 
     def configure_macie(self):
-        # Create GuardDuty findings bucket.
-        self.macie_findings_bucket = aws_s3.Bucket(
-            self, "Controls-Foundation-Macie-Findings"
-        )
-        # Start Macie session
-        self.macie_session = aws_macie.CfnSession(
-            self,
-            "Test Macie Session",
-            finding_publishing_frequency="FIFTEEN_MINUTES",
-            status="ENABLED",
-        )
+        macie_enabled = False
+
+        macie_client = boto3.client("macie2")
+        try:
+            macie_enabled = macie_client.get_macie_session().get("status") == "ENABLED"
+        except Exception as e:
+            if "Macie is not enabled" not in str(e):
+                raise
+
+        if not macie_enabled:
+            # Start Macie session
+            self.macie_session = aws_macie.CfnSession(
+                self,
+                "Test Macie Session",
+                finding_publishing_frequency="FIFTEEN_MINUTES",
+                status="ENABLED",
+            )
 
         self.macie_custom_data_identifier = aws_macie.CfnCustomDataIdentifier(
             self,
-            "Controls Foundation Macie",
-            description="This is a Macie custom identifier that PID data in S3 buckets.",
+            "ControlsFoundationSSN",
+            description="This is a Macie custom identifier that looks for SSN data in S3 buckets.",
             name="controls-foundation-macie-test-pid",
             regex="(\d){3}-(\d){2}-(\d){4}",
         )
 
     def configure_iam_access_analyzer(self):
-        # Create an account-level analyzer
-        self.account_analyzer = aws_accessanalyzer.CfnAnalyzer(
-            self, "Account IAM Access Analyzer", type="ACCOUNT"
+        access_analyzer_client = boto3.client("accessanalyzer")
+        existing_analyzers = access_analyzer_client.list_analyzers().get(
+            "analyzers", [{}]
         )
+        active_analyzers = [
+            analyzer
+            for analyzer in existing_analyzers
+            if analyzer.get("status") == "ACTIVE"
+        ]
+        if active_analyzers:
+            logger.info(
+                "Skipping creation of IAM access analyzer because an active instance already exists in the current account"
+            )
+        elif existing_analyzers and not active_analyzers:
+            logger.warning(
+                "Cannot create an Analyzer because at least one exists and none are in ACTIVE status"
+            )
+        else:
+            # Create an account-level analyzer
+            self.account_analyzer = aws_accessanalyzer.CfnAnalyzer(
+                self, "Account IAM Access Analyzer", type="ACCOUNT"
+            )
