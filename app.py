@@ -4,6 +4,7 @@ import os
 from aws_cdk import core as cdk
 
 from controls_pipeline.controls_pipeline_stack import ControlsPipelineStack
+from controls_pipeline.application_pipeline_stack import ApplicationPipelineStack
 
 app = cdk.App()
 
@@ -24,13 +25,14 @@ controls_stack = ControlsPipelineStack(
     controls_repo,
     env=common_env
 )
-#application_stack = ControlsPipelineStack(
-#    app,
-#    "ControlsFoundationApplicationPipeline",
-#    github_owner,
-#    application_repo,
-#    env=common_env,
-#)
+
+application_stack = ApplicationPipelineStack(
+    app,
+    "ControlsFoundationApplicationPipeline",
+    github_owner,
+    application_repo,
+    env=common_env,
+)
 
 ## Create the pipelines.
 #controls_stack.configure_pipeline()
