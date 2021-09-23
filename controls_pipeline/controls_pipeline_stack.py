@@ -94,8 +94,7 @@ class ControlsPipelineStack(cdk.Stack):
         # Policy for deploying the cfn template from the pipeline.
         self.pipeline_cfn_access_policy = aws_iam.PolicyStatement(
             self,
-            effect = "Allow",
-            actions = ["cloudformation:DeleteStackInstances",
+            actions=["cloudformation:DeleteStackInstances",
                 "cloudformation:ListExports",
                 "cloudformation:ListStackInstances",
                 "cloudformation:DescribeStackResource",
@@ -153,7 +152,8 @@ class ControlsPipelineStack(cdk.Stack):
                 "cloudformation:CreateStack",
                 "cloudformation:TagResource",
                 "cloudformation:ListChangeSets"],
-                resources = ["*"]
+                effect="Allow",
+                resources=["*"]
         )
         # Define pipeline synth action.
         pipeline_synth_action = pipelines.SimpleSynthAction(
