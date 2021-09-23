@@ -73,6 +73,7 @@ class ControlsPipelineStack(cdk.Stack):
         # Create codestar connection to connect pipeline to git.
         connection_name = "".join(
             (
+                # The connector name is concatenated here because the max_length of the connection_name attribute is 32.
                 self.github_repo_name[19 : len(self.github_repo_name) - 2],
                 "_git_connection",
             )
@@ -164,7 +165,7 @@ class ControlsPipelineStack(cdk.Stack):
                 "cloudformation:TagResource",
                 "cloudformation:ListChangeSets",
             ],
-            resources=["*"],
+            resources=["*"]
         )
         # Define pipeline synth action.
         pipeline_synth_action = pipelines.SimpleSynthAction(
@@ -269,9 +270,12 @@ class ControlsPipelineStack(cdk.Stack):
 
         # We cannot create multiple detectors in a single account/region
         guardduty_client = boto3.client("guardduty")
-        existing_detector_id = guardduty_client.list_detectors().get(
-            "DetectorIds", [None]
-        )[0]
+        if len(guardduty_client.list_detectors().get("DetectorIds", [None])) == 0:
+            existing_detector_id = None
+        else:
+            existing_detector_id = guardduty_client.list_detectors().get(
+                "DetectorIds", [None]
+            )[0]
         if existing_detector_id is None:
             # Create account-level GuardDuty detector.
             self.guardduty_detector = aws_guardduty.CfnDetector(
@@ -321,7 +325,7 @@ class ControlsPipelineStack(cdk.Stack):
         self.macie_custom_data_identifier = aws_macie.CfnCustomDataIdentifier(
             self,
             "ControlsFoundationSSN",
-            description="This is a Macie custom identifier that looks for SSN data in S3 buckets.",
+            description="This is a Macie custom identifier that looks for PID data in S3 buckets.",
             name="controls-foundation-macie-test-pid",
             regex="(\d){3}-(\d){2}-(\d){4}",
         )
