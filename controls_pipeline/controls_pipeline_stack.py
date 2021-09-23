@@ -102,6 +102,7 @@ class ControlsPipelineStack(cdk.Stack):
             repo=self.github_repo_name,
         )
         # Policy for deploying the cfn template from the pipeline.
+        '''
         self.pipeline_cfn_access_policy = aws_iam.PolicyStatement(
             self,
             # effect=aws_iam.Effect("ALLOW"), --> Default is allow.
@@ -167,6 +168,7 @@ class ControlsPipelineStack(cdk.Stack):
             ],
             resources=["*"]
         )
+        '''
         # Define pipeline synth action.
         pipeline_synth_action = pipelines.SimpleSynthAction(
             install_commands=[
@@ -176,8 +178,8 @@ class ControlsPipelineStack(cdk.Stack):
             ],
             synth_command="npx cdk synth",
             source_artifact=pipeline_source_artifact,  # Where to get source code to build
-            cloud_assembly_artifact=pipeline_cloud_assembly_artifact,  # Where to place built source
-            role_policy_statements=[self.pipeline_cfn_access_policy],
+            cloud_assembly_artifact=pipeline_cloud_assembly_artifact  # Where to place built source
+            #role_policy_statements=[self.pipeline_cfn_access_policy],
         )
 
         # Create the pipeline.
