@@ -6,17 +6,17 @@ with open("README.md") as fp:
 
 
 setuptools.setup(
-    name="controls_pipeline",
+    name="blueprint_pipelines",
     version="0.0.1",
 
-    description="An empty CDK Python app",
+    description="Vertical Relevance's Controls Foundation Blueprint",
     long_description=long_description,
     long_description_content_type="text/markdown",
 
     author="author",
 
-    package_dir={"": "controls_pipeline"},
-    packages=setuptools.find_packages(where="controls_pipeline"),
+    package_dir={"": "blueprint_pipelines"},
+    packages=setuptools.find_packages(where="blueprint_pipelines"),
 
     install_requires=[
         "aws-cdk.core==1.122.0",

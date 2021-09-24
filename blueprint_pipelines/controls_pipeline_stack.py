@@ -122,7 +122,7 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
             self,
             "Config-Rule-Detective",
             runtime=aws_lambda.Runtime.PYTHON_3_7,
-            code=aws_lambda.Code.asset("controls_pipeline/controls_scripts/lambdas"),
+            code=aws_lambda.Code.asset(os.path.join(CONTROLS_SCRIPT_DIR, "lambdas")),
             handler="config_custom_rule_detective.handler",
         )
         # Create lambda for custom config rule (reactive).
@@ -130,7 +130,7 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
             self,
             "Config-Rule-Reactive",
             runtime=aws_lambda.Runtime.PYTHON_3_7,
-            code=aws_lambda.Code.asset("controls_pipeline/controls_scripts/lambdas"),
+            code=aws_lambda.Code.asset(os.path.join(CONTROLS_SCRIPT_DIR, "lambdas")),
             handler="config_custom_rule_reactive.handler",
         )
 

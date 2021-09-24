@@ -7,7 +7,7 @@ from aws_cdk import (
 
 
 class PipelineMixin:
-    """Add to a class and call configure_pipeline inside its constructor to make a self-mutating pipeline out of it.
+    """Add to a stack class and call configure_pipeline inside its constructor to make a self-mutating pipeline out of it.
 
     Expects self.github_repo_name, self.github_repo_owner, and self.github_repo_branch to be defined.
 
@@ -50,7 +50,7 @@ class PipelineMixin:
                 "pip install --upgrade pip",
                 "pip install -r requirements.txt",  # Instructs Codebuild to install required packages
             ],
-            synth_command="npx cdk synth",
+            synth_command=f"npx cdk synth -c 'fromPipelineSynthStage={self.stack_name}' {self.stack_name}",
             source_artifact=pipeline_source_artifact,  # Where to get source code to build
             cloud_assembly_artifact=pipeline_cloud_assembly_artifact,  # Where to place built source
             role_policy_statements=additional_synth_iam_statements,
