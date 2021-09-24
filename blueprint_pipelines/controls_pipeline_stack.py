@@ -22,7 +22,7 @@ from control_broker import ControlBroker
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 SUPPLEMENTARY_FILES_DIR = os.path.join(CURRENT_DIR, "../supplementary_files")
 CONTROLS_SCRIPT_DIR = os.path.join(CURRENT_DIR, "controls_scripts")
-OPA_POLICIES_DIR = os.path.join(CONTROLS_SCRIPT_DIR, "opa_policies")
+OPA_POLICIES_DIR = os.path.join(CONTROLS_SCRIPT_DIR, "config_event_opa_policies")
 DEFAULT_CONFORMANCE_PACK_FILE_PATH = os.path.join(
     SUPPLEMENTARY_FILES_DIR, "s3-guardrails-conformance-pack.yaml"
 )

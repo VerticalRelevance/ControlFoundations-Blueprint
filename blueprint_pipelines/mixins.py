@@ -38,13 +38,13 @@ class PipelineMixin:
             ).to_string()
 
         # Define the artifacts that represent source code and cloud assembly.
-        pipeline_source_artifact = codepipeline.Artifact()
-        pipeline_cloud_assembly_artifact = codepipeline.Artifact()
+        self.pipeline_source_artifact = codepipeline.Artifact()
+        self.pipeline_cloud_assembly_artifact = codepipeline.Artifact()
 
         pipeline_source_action = codepipeline_actions.CodeStarConnectionsSourceAction(
             action_name="GitHub_Source",
             connection_arn=self.codestar_connection_arn,
-            output=pipeline_source_artifact,
+            output=self.pipeline_source_artifact,
             owner=self.github_repo_owner,
             repo=self.github_repo_name,
             branch=self.github_repo_branch,
@@ -58,8 +58,8 @@ class PipelineMixin:
                 "pip install -r requirements.txt",  # Instructs Codebuild to install required packages
             ],
             synth_command=f"npx cdk synth -c 'fromPipelineSynthStage={self.stack_name}' {self.stack_name}",
-            source_artifact=pipeline_source_artifact,  # Where to get source code to build
-            cloud_assembly_artifact=pipeline_cloud_assembly_artifact,  # Where to place built source
+            source_artifact=self.pipeline_source_artifact,  # Where to get source code to build
+            cloud_assembly_artifact=self.pipeline_cloud_assembly_artifact,  # Where to place built source
             role_policy_statements=additional_synth_iam_statements,
             environment={"privileged": privileged},
         )
@@ -68,7 +68,7 @@ class PipelineMixin:
         self.pipeline = pipelines.CdkPipeline(
             self,
             "Pipeline",
-            cloud_assembly_artifact=pipeline_cloud_assembly_artifact,
+            cloud_assembly_artifact=self.pipeline_cloud_assembly_artifact,
             source_action=pipeline_source_action,
             synth_action=pipeline_synth_action,
         )
