@@ -28,7 +28,7 @@ class PipelineMixin:
                 connection_name=connection_name,
                 provider_type="GitHub",
             )
-            self.codestar_connection_arn = codestar_connection.get_att("ConnectionArn")
+            self.codestar_connection_arn = codestar_connection.get_att("ConnectionArn").to_string()
 
         # Define the artifacts that represent source code and cloud assembly.
         pipeline_source_artifact = codepipeline.Artifact()

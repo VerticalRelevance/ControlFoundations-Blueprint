@@ -24,6 +24,7 @@ controls_stack = ControlsPipelineStack(
     "ControlsFoundationControlsPipeline",
     github_owner,
     controls_repo,
+    codestar_connection_arn=codestar_connection_arn,
     env=common_env
 )
 
@@ -34,6 +35,7 @@ application_stack = ApplicationPipelineStack(
     controls_repo,
     application_repo_owner=github_owner,
     application_repo_name=application_repo,
+    codestar_connection_arn=codestar_connection_arn,
     env=common_env,
 )
 
