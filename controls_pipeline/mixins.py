@@ -17,9 +17,10 @@ class PipelineMixin:
         # Create codestar connection to connect pipeline to git.
         connection_name = "".join(
             (
-                # The connector name is concatenated here because the max_length of the connection_name attribute is 32.
-                self.github_repo_name[19 : len(self.github_repo_name) - 2],
-                "GitHubConn",
+                # The connector name is substringed here because the max_length
+                # of the connection_name attribute is 32.
+                self.github_repo_name[-19:],
+                "GitHubConnect",
             )
         )
         pipeline_git_connection = codestarconnections.CfnConnection(

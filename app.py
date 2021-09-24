@@ -13,9 +13,9 @@ common_env = cdk.Environment(
 )
 
 # Input parameters. Update according to your existing github owner name and repo names.
-github_owner = "showley-vr"
-controls_repo = "ControlsFoundation-ControlsPipeline"
-application_repo = "ControlsFoundation-ApplicationPipeline"
+github_owner = "VerticalRelevance"
+controls_repo = "ControlFoundations-Blueprint"
+application_repo = "ControlFoundations-ExampleApp"
 
 # Initialize the stacks.
 controls_stack = ControlsPipelineStack(
@@ -30,7 +30,9 @@ application_stack = ApplicationPipelineStack(
     app,
     "ControlsFoundationApplicationPipeline",
     github_owner,
-    application_repo,
+    controls_repo,
+    application_repo_owner=github_owner,
+    application_repo_name=application_repo,
     env=common_env,
 )
 

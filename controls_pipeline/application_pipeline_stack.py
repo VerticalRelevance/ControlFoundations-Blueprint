@@ -24,19 +24,27 @@ class S3BucketPublicAccessOffAspect:
 
 
 class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
+    """Deploy a pipeline that runs controls against the application CDK code before deploying it."""
+
     def __init__(
         self,
         scope: cdk.Construct,
         id: str,
-        github_repo_owner: str,
-        github_repo_name: str,
-        github_repo_branch: str = "main",
+        pipeline_repo_owner: str,
+        pipeline_repo_name: str,
+        application_repo_owner: str,
+        application_repo_name: str,
+        application_repo_branch: str = "main",
+        pipeline_repo_branch: str = "main",
         **kwargs,
     ) -> None:
         super().__init__(scope, id, **kwargs)
-        self.github_repo_owner = github_repo_owner
-        self.github_repo_name = github_repo_name
-        self.github_repo_branch = github_repo_branch
+        self.github_repo_owner = pipeline_repo_owner 
+        self.github_repo_name = pipeline_repo_name
+        self.github_repo_branch = pipeline_repo_branch
+        self.application_repo_owner = application_repo_owner
+        self.application_repo_name = application_repo_name
+        self.application_repo_branch = application_repo_branch
 
         self.configure_pipeline()
 
