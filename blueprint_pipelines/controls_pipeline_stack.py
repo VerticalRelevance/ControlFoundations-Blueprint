@@ -83,6 +83,7 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
         self.configure_guardduty()
         self.configure_iam_access_analyzer()
         self.configure_macie()
+        self.configure_control_broker()
 
         # Turn off public access on any buckets created in this stack
         cdk.Aspects.of(self).add(S3BucketPublicAccessOffAspect())
@@ -90,9 +91,7 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
     def configure_utility_s3_bucket(self):
         """Create an S3 bucket to store various stack assets in.
         Prevents us from creating tons of buckets for this one stack."""
-        self.utility_s3_bucket = aws_s3.Bucket(
-            self, "UtilityS3Bucket"
-        )
+        self.utility_s3_bucket = aws_s3.Bucket(self, "UtilityS3Bucket")
 
     def configure_config_conformance_pack(
         self,
@@ -165,7 +164,14 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
 
     def configure_control_broker(self):
         self.control_broker = ControlBroker(self, "ControlBroker")
-        self.control_broker.add_opa_rule(Path(OPA_POLICIES_DIR))
+        self.control_broker.add_opa_rule(
+            Path(OPA_POLICIES_DIR) / "opa_policy_s3_encryption.rego",
+            "s3EncryptionRule",
+            "Ensures SSE is on by default for all S3 buckets",
+            aws_config.RuleScope.from_resource(aws_config.ResourceType.S3_BUCKET),
+            "s3_bucket_encryption",
+            "compliant",
+        )
 
     def configure_guardduty(self):
         # Create GuardDuty findings bucket.

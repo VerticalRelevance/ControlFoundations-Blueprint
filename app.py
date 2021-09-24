@@ -30,8 +30,6 @@ codestar_connection_arn = "***REMOVED***"
 # the controls pipeline from within the application pipeline would fail.
 currently_executing_pipeline = app.node.try_get_context("fromPipelineSynthStage")
 
-print(currently_executing_pipeline)
-
 if (
     not currently_executing_pipeline
     or currently_executing_pipeline == CONTROLS_PIPELINE_NAME
