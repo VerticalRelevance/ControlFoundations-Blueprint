@@ -16,19 +16,24 @@ class PipelineMixin:
 
     additional_synth_iam_statements are added to the synth stage role"""
 
-    def configure_pipeline(self, additional_synth_iam_statements=None):
+    def configure_pipeline(self, additional_synth_iam_statements=None, privileged=False):
         # Create codestar connection to connect pipeline to git.
         # The connector name is sliced here because the max length
         # of the connection_name attribute is 32.
         connection_name = self.github_repo_name[:32]
-        if not hasattr(self, 'codestar_connection_arn') or not self.codestar_connection_arn:
+        if (
+            not hasattr(self, "codestar_connection_arn")
+            or not self.codestar_connection_arn
+        ):
             codestar_connection = codestarconnections.CfnConnection(
                 self,
                 connection_name,
                 connection_name=connection_name,
                 provider_type="GitHub",
             )
-            self.codestar_connection_arn = codestar_connection.get_att("ConnectionArn").to_string()
+            self.codestar_connection_arn = codestar_connection.get_att(
+                "ConnectionArn"
+            ).to_string()
 
         # Define the artifacts that represent source code and cloud assembly.
         pipeline_source_artifact = codepipeline.Artifact()
@@ -54,6 +59,7 @@ class PipelineMixin:
             source_artifact=pipeline_source_artifact,  # Where to get source code to build
             cloud_assembly_artifact=pipeline_cloud_assembly_artifact,  # Where to place built source
             role_policy_statements=additional_synth_iam_statements,
+            environment={"privileged": privileged},
         )
 
         # Create the pipeline.
