@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from typing import List, Sequence
 
 from aws_cdk import (
     aws_config,
@@ -8,8 +7,6 @@ from aws_cdk import (
     core as cdk,
     aws_lambda,
     aws_lambda_python,
-    aws_s3,
-    aws_s3_deployment,
 )
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -57,7 +54,7 @@ class ControlBroker(cdk.Construct):
         opa_policy_rule_to_eval: str,
     ):
         rego_policy_asset = aws_s3_assets.Asset(
-            self, f"{name}RegoAsset", path=local_rego_policy_file_path.resolve()
+            self, f"{name}RegoAsset", path=str(local_rego_policy_file_path.resolve())
         )
         rego_policy_asset.grant_read(self.opa_lambda)
         aws_config.CustomRule(
