@@ -16,7 +16,9 @@ class PipelineMixin:
 
     additional_synth_iam_statements are added to the synth stage role"""
 
-    def configure_pipeline(self, additional_synth_iam_statements=None, privileged=False):
+    def configure_pipeline(
+        self, additional_synth_iam_statements=None, privileged=False
+    ):
         # Create codestar connection to connect pipeline to git.
         # The connector name is sliced here because the max length
         # of the connection_name attribute is 32.

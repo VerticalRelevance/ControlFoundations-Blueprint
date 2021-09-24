@@ -58,7 +58,7 @@ class ControlBroker(cdk.Construct):
             configuration_changes=True,
             rule_scope=rule_scope,
             input_parameters={
-                "ASSETS_BUCKET": self.rego_asset_bucket,
+                "ASSETS_BUCKET": self.rego_asset_bucket.bucket_name,
                 "REGO_POLICIES_PREFIX": self.REGO_POLICIES_PREFIX,
                 "REGO_POLICY_KEY": local_rego_policy_file_path.name,
                 "OPA_POLICY_PACKAGE_NAME": opa_policy_package_name,

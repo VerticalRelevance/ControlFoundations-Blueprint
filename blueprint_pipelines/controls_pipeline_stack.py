@@ -76,7 +76,7 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
                     resources=["*"],
                 )
             ],
-            privileged=True
+            privileged=True,
         )
 
         self.configure_config_conformance_pack()
