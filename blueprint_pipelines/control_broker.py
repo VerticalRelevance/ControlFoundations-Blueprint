@@ -1,7 +1,16 @@
 import os
 from pathlib import Path
+from typing import List, Sequence
 
-from aws_cdk import aws_config, core as cdk, aws_lambda, aws_lambda_python, aws_s3
+from aws_cdk import (
+    aws_config,
+    aws_s3_assets,
+    core as cdk,
+    aws_lambda,
+    aws_lambda_python,
+    aws_s3,
+    aws_s3_deployment,
+)
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 SCRIPTS_DIR = os.path.join(CURRENT_DIR, "controls_scripts")
@@ -37,8 +46,6 @@ class ControlBroker(cdk.Construct):
             code=aws_lambda.Code.from_asset(CONTROL_BROKER_OPA_LAMBDA_LAYER_DIR),
         )
         self.opa_lambda.add_layers(self.opa_layer)
-        self.rego_asset_bucket = aws_s3.Bucket(self, "ControlBrokerRegoAssetBucket")
-        self.rego_asset_bucket.grant_read(self.opa_lambda)
 
     def add_opa_rule(
         self,
@@ -49,6 +56,10 @@ class ControlBroker(cdk.Construct):
         opa_policy_package_name: str,
         opa_policy_rule_to_eval: str,
     ):
+        rego_policy_asset = aws_s3_assets.Asset(
+            self, f"{name}RegoAsset", local_rego_policy_file_path.resolve()
+        )
+        rego_policy_asset.grant_read(self.opa_lambda)
         aws_config.CustomRule(
             self,
             name,
@@ -58,9 +69,9 @@ class ControlBroker(cdk.Construct):
             configuration_changes=True,
             rule_scope=rule_scope,
             input_parameters={
-                "ASSETS_BUCKET": self.rego_asset_bucket.bucket_name,
-                "REGO_POLICIES_PREFIX": self.REGO_POLICIES_PREFIX,
-                "REGO_POLICY_KEY": local_rego_policy_file_path.name,
+                "ASSETS_BUCKET": rego_policy_asset.s3_bucket_name,
+                "REGO_POLICIES_PREFIX": "",
+                "REGO_POLICY_KEY": rego_policy_asset.s3_object_key,
                 "OPA_POLICY_PACKAGE_NAME": opa_policy_package_name,
                 "OPA_POLICY_RULE_TO_EVAL": opa_policy_rule_to_eval,
             },
