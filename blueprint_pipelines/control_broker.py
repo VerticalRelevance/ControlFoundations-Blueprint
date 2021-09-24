@@ -57,7 +57,7 @@ class ControlBroker(cdk.Construct):
         opa_policy_rule_to_eval: str,
     ):
         rego_policy_asset = aws_s3_assets.Asset(
-            self, f"{name}RegoAsset", local_rego_policy_file_path.resolve()
+            self, f"{name}RegoAsset", path=local_rego_policy_file_path.resolve()
         )
         rego_policy_asset.grant_read(self.opa_lambda)
         aws_config.CustomRule(
@@ -67,6 +67,7 @@ class ControlBroker(cdk.Construct):
             config_rule_name=name,
             lambda_function=self.opa_lambda,
             configuration_changes=True,
+            periodic=True,
             rule_scope=rule_scope,
             input_parameters={
                 "ASSETS_BUCKET": rego_policy_asset.s3_bucket_name,
