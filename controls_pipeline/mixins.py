@@ -1,24 +1,25 @@
 from aws_cdk import (
-    core as cdk,
     aws_codepipeline as codepipeline,
     aws_codepipeline_actions as codepipeline_actions,
     pipelines as pipelines,
     aws_codestarconnections as codestarconnections,
 )
 
+
 class PipelineMixin:
     """Add to a class and call configure_pipeline inside its constructor to make a self-mutating pipeline out of it.
 
-    Expects self.github_repo_name and self.github_repo_owner to be defined.
-    
+    Expects self.github_repo_name, self.github_repo_owner, and self.github_repo_branch to be defined.
+
     additional_synth_iam_statements are added to the synth stage role"""
+
     def configure_pipeline(self, additional_synth_iam_statements=None):
         # Create codestar connection to connect pipeline to git.
         connection_name = "".join(
             (
                 # The connector name is concatenated here because the max_length of the connection_name attribute is 32.
                 self.github_repo_name[19 : len(self.github_repo_name) - 2],
-                "_git_connection",
+                "GitHubConn",
             )
         )
         pipeline_git_connection = codestarconnections.CfnConnection(
@@ -43,8 +44,9 @@ class PipelineMixin:
             output=pipeline_source_artifact,
             owner=self.github_repo_owner,
             repo=self.github_repo_name,
+            branch=self.github_repo_branch,
         )
-        
+
         # Define pipeline synth action.
         pipeline_synth_action = pipelines.SimpleSynthAction(
             install_commands=[

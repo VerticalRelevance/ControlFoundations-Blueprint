@@ -15,6 +15,7 @@ SUPPLEMENTARY_FILES_DIR = os.path.join(CURRENT_DIR, "../supplementary_files")
 
 logger = logging.getLogger(__name__)
 
+
 @jsii.implements(cdk.IAspect)
 class S3BucketPublicAccessOffAspect:
     def visit(self, node):
@@ -29,11 +30,13 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
         id: str,
         github_repo_owner: str,
         github_repo_name: str,
+        github_repo_branch: str = "main",
         **kwargs,
     ) -> None:
         super().__init__(scope, id, **kwargs)
         self.github_repo_owner = github_repo_owner
         self.github_repo_name = github_repo_name
+        self.github_repo_branch = github_repo_branch
 
         self.configure_pipeline()
 

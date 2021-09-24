@@ -17,6 +17,7 @@ from aws_cdk import (
 )
 
 from mixins import PipelineMixin
+from control_broker import ControlBroker
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 SUPPLEMENTARY_FILES_DIR = os.path.join(CURRENT_DIR, "../supplementary_files")
@@ -46,6 +47,7 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
         id: str,
         github_repo_owner: str,
         github_repo_name: str,
+        github_repo_branch: str = "main",
         local_guardduty_threat_intel_set_path: str = DEFAULT_GUARDDUTY_THREAT_INTEL_SCRIPT_PATH,
         local_conformance_pack_path: str = DEFAULT_CONFORMANCE_PACK_FILE_PATH,
         **kwargs,
@@ -53,6 +55,7 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
         super().__init__(scope, id, **kwargs)
         self.github_repo_owner = github_repo_owner
         self.github_repo_name = github_repo_name
+        self.github_repo_branch = github_repo_branch
         self.local_guardduty_threat_intel_set_path = (
             local_guardduty_threat_intel_set_path
         )
@@ -86,12 +89,16 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
         """Create an S3 bucket to store various stack assets in.
         Prevents us from creating tons of buckets for this one stack."""
         self.utility_s3_bucket = aws_s3.Bucket(
-            self, "UtilityS3Bucket", bucket_name="controls-blueprint-utility-bucket"
+            self, "UtilityS3Bucket"
         )
 
     def configure_config_conformance_pack(
         self,
     ):
+        """Configure conformance packs for AWS Config.
+
+        In an Organization context, we would instead use CfnOrganizationConformancePack resources,
+        but in this blueprint, we are limited to the single lab account for deployment."""
         self.conformance_pack_asset = aws_s3_assets.Asset(
             self, "ConformancePackAsset", path=self.local_conformance_pack_path
         )
@@ -104,6 +111,10 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
         )
 
     def configure_config_custom_rules(self):
+        """Create custom config rules.
+
+        In an Organization context, we would instead use CfnOrganizationConfigRule resources, but
+        in this blueprint, we are limited to the single lab account for deployment."""
         # Create lambda for custom config rule (detective).
         self.config_detective_rule_lambda = aws_lambda.Function(
             self,
@@ -150,9 +161,9 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
             periodic=True,
         )
 
-    #    def configure_control_broker(self):
-    #        self.control_broker = ControlBroker(self, "ControlBroker")
-    #        self.control_broker.add_opa_rule(Path(OPA_POLICIES_DIR))
+    def configure_control_broker(self):
+        self.control_broker = ControlBroker(self, "ControlBroker")
+        self.control_broker.add_opa_rule(Path(OPA_POLICIES_DIR))
 
     def configure_guardduty(self):
         # Create GuardDuty findings bucket.
