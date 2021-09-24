@@ -16,6 +16,7 @@ common_env = cdk.Environment(
 github_owner = "VerticalRelevance"
 controls_repo = "ControlFoundations-Blueprint"
 application_repo = "ControlFoundations-ExampleApp"
+codestar_connection_arn = "***REMOVED***"
 
 # Initialize the stacks.
 controls_stack = ControlsPipelineStack(

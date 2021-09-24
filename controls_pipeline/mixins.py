@@ -11,37 +11,32 @@ class PipelineMixin:
 
     Expects self.github_repo_name, self.github_repo_owner, and self.github_repo_branch to be defined.
 
+    If you want to use an existing CodeStar connection for the source stage, specify its arn with
+    self.codestar_connection_arn
+
     additional_synth_iam_statements are added to the synth stage role"""
 
     def configure_pipeline(self, additional_synth_iam_statements=None):
         # Create codestar connection to connect pipeline to git.
-        connection_name = "".join(
-            (
-                # The connector name is substringed here because the max_length
-                # of the connection_name attribute is 32.
-                self.github_repo_name[-19:],
-                "GitHubConnect",
+        # The connector name is sliced here because the max length
+        # of the connection_name attribute is 32.
+        connection_name = self.github_repo_name[:32]
+        if not hasattr(self, 'codestar_connection_arn') or not self.codestar_connection_arn:
+            codestar_connection = codestarconnections.CfnConnection(
+                self,
+                connection_name,
+                connection_name=connection_name,
+                provider_type="GitHub",
             )
-        )
-        pipeline_git_connection = codestarconnections.CfnConnection(
-            self,
-            connection_name,
-            connection_name=connection_name,
-            provider_type="GitHub",
-        )
+            self.codestar_connection_arn = codestar_connection.get_att("ConnectionArn")
 
         # Define the artifacts that represent source code and cloud assembly.
         pipeline_source_artifact = codepipeline.Artifact()
         pipeline_cloud_assembly_artifact = codepipeline.Artifact()
 
-        # Define pipeline source action.
-        git_connection_arn = pipeline_git_connection.get_att(
-            "ConnectionArn"
-        ).to_string()
-
         pipeline_source_action = codepipeline_actions.CodeStarConnectionsSourceAction(
             action_name="GitHub_Source",
-            connection_arn=git_connection_arn,
+            connection_arn=self.codestar_connection_arn,
             output=pipeline_source_artifact,
             owner=self.github_repo_owner,
             repo=self.github_repo_name,

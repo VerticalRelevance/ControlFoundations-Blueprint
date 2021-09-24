@@ -36,6 +36,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
         application_repo_name: str,
         application_repo_branch: str = "main",
         pipeline_repo_branch: str = "main",
+        codestar_connection_arn: str = None,
         **kwargs,
     ) -> None:
         super().__init__(scope, id, **kwargs)
@@ -45,6 +46,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
         self.application_repo_owner = application_repo_owner
         self.application_repo_name = application_repo_name
         self.application_repo_branch = application_repo_branch
+        self.codestar_connection_arn = codestar_connection_arn
 
         self.configure_pipeline()
 

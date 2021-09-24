@@ -50,6 +50,7 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
         github_repo_branch: str = "main",
         local_guardduty_threat_intel_set_path: str = DEFAULT_GUARDDUTY_THREAT_INTEL_SCRIPT_PATH,
         local_conformance_pack_path: str = DEFAULT_CONFORMANCE_PACK_FILE_PATH,
+        codestar_connection_arn: str = None,
         **kwargs,
     ) -> None:
         super().__init__(scope, id, **kwargs)
@@ -60,6 +61,7 @@ class ControlsPipelineStack(cdk.Stack, PipelineMixin):
             local_guardduty_threat_intel_set_path
         )
         self.local_conformance_pack_path = local_conformance_pack_path
+        self.codestar_connection_arn = codestar_connection_arn
 
         self.configure_utility_s3_bucket()
         self.configure_pipeline(
