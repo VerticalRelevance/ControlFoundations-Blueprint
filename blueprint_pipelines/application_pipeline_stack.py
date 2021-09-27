@@ -106,9 +106,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                             "commands": ["cdk synth"],
                         },
                     },
-                    "artifacts": {
-                        "files": ["cdk.out/**"]
-                    }
+                    "artifacts": {"files": ["cdk.out/**"]},
                 }
             ),
         )
@@ -119,7 +117,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                 type=aws_codepipeline_actions.CodeBuildActionType.BUILD,
                 run_order=self.application_build_stage.next_sequential_run_order(),
                 project=self.application_build_codebuild_project,
-                action_name="DeployApplication"
+                action_name="CdkSynth",
             )
         )
 
@@ -145,7 +143,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                     },
                 }
             ),
-            role=self.self_mutate_codebuild_deploy_role
+            role=self.self_mutate_codebuild_deploy_role,
         )
         self.application_deploy_stage.add_actions(
             aws_codepipeline_actions.CodeBuildAction(
@@ -154,7 +152,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                 run_order=self.application_deploy_stage.next_sequential_run_order(),
                 project=self.application_deploy_codebuild_project,
                 role=self.self_mutate_pipeline_action_role,
-                action_name="AppDeploy"
+                action_name="AppDeploy",
             )
         )
 
@@ -176,7 +174,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                                 "ls -alh .",
                                 "ls -alh $CODEBUILD_SRC_DIR_source2",
                                 "env",
-                                f"{REPO_OPA_EVAL_SCRIPT_PATH} {REPO_OPA_CFN_TEMPL_OPA_POLICIES_DIR} $CODEBUILD_SRC_DIR_source2/cdk.out/*.template.json"
+                                f"{REPO_OPA_EVAL_SCRIPT_PATH} {REPO_OPA_CFN_TEMPL_OPA_POLICIES_DIR} $CODEBUILD_SRC_DIR_Artifact_BuildApplication_CdkSynth/*.template.json",
                             ],
                         },
                     },
@@ -190,6 +188,6 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                 type=aws_codepipeline_actions.CodeBuildActionType.BUILD,
                 run_order=self.automated_controls_stage.next_sequential_run_order(),
                 project=self.opa_codebuild_project,
-                action_name="OPACheck"
+                action_name="OPACheck",
             )
         )
