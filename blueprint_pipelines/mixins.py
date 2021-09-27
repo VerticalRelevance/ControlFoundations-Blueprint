@@ -42,7 +42,7 @@ class PipelineMixin:
         self.pipeline_cloud_assembly_artifact = codepipeline.Artifact()
 
         pipeline_source_action = codepipeline_actions.CodeStarConnectionsSourceAction(
-            action_name="GitHub_Source",
+            action_name="Pipeline_GitHub_Source",
             connection_arn=self.codestar_connection_arn,
             output=self.pipeline_source_artifact,
             owner=self.github_repo_owner,
@@ -72,3 +72,5 @@ class PipelineMixin:
             source_action=pipeline_source_action,
             synth_action=pipeline_synth_action,
         )
+
+        self.self_mutate_deploy_role = [r for r in self.pipeline.node.find_all() if r.node.path.endswith('/Pipeline/UpdatePipeline/SelfMutation/Role')][0]

@@ -3,7 +3,13 @@ import os
 from pathlib import Path
 
 import jsii
-from aws_cdk import core as cdk, aws_s3, aws_codepipeline_actions, aws_codebuild
+from aws_cdk import (
+    aws_codepipeline,
+    core as cdk,
+    aws_s3,
+    aws_codepipeline_actions,
+    aws_codebuild,
+)
 
 from mixins import PipelineMixin
 
@@ -59,10 +65,95 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
 
     def configure_pipeline(self, *args, **kwargs):
         super().configure_pipeline(*args, **kwargs)
+        self.application_source_artifact = aws_codepipeline.Artifact()
+        application_source_action = (
+            aws_codepipeline_actions.CodeStarConnectionsSourceAction(
+                action_name="Application_GitHub_Source",
+                connection_arn=self.codestar_connection_arn,
+                output=self.application_source_artifact,
+                owner=self.application_repo_owner,
+                repo=self.application_repo_name,
+                branch=self.application_repo_branch,
+            )
+        )
+        self.pipeline_source_stage = self.pipeline.stage("Source")
+        self.pipeline_source_stage.add_action(application_source_action)
+        self.application_build_stage = self.pipeline.add_stage("BuildApplication")
+        self.configure_application_build_stage()
         self.automated_controls_stage = self.pipeline.add_stage("AutomatedControls")
+        self.configure_opa_check_stage()
+        self.application_deploy_stage = self.pipeline.add_stage("DeployApplication")
+        self.configure_application_deploy_stage()
 
-    def configure_application_deployment_stage(self):
-        pass
+    def configure_application_build_stage(self):
+        self.application_cloud_assembly_artifact = aws_codepipeline.Artifact()
+        self.application_build_codebuild_project = aws_codebuild.Project(
+            self,
+            "ApplicationBuild",
+            build_spec=aws_codebuild.BuildSpec.from_object(
+                {
+                    "version": "0.2",
+                    "phases": {
+                        "install": {
+                            "runtime-versions": {"python": 3.8, "nodejs": 14},
+                            "commands": [
+                                "npm install -g aws-cdk",
+                                "pip install --upgrade pip",
+                                "pip install -r requirements.txt",
+                            ],
+                        },
+                        "build": {
+                            "commands": ["cdk synth"],
+                        },
+                    },
+                }
+            ),
+        )
+        self.application_build_stage.add_actions(
+            aws_codepipeline_actions.CodeBuildAction(
+                input=self.application_source_artifact,
+                outputs=[self.application_cloud_assembly_artifact],
+                type=aws_codepipeline_actions.CodeBuildActionType.BUILD,
+                run_order=self.application_build_stage.next_sequential_run_order(),
+                project=self.application_build_codebuild_project,
+                action_name="DeployApplication"
+            )
+        )
+
+    def configure_application_deploy_stage(self):
+        self.application_deploy_codebuild_project = aws_codebuild.Project(
+            self,
+            "ApplicationDeployment",
+            build_spec=aws_codebuild.BuildSpec.from_object(
+                {
+                    "version": "0.2",
+                    "phases": {
+                        "install": {
+                            "runtime-versions": {"python": 3.8, "nodejs": 14},
+                            "commands": [
+                                "npm install -g aws-cdk",
+                                "pip install --upgrade pip",
+                                "pip install -r requirements.txt",
+                            ],
+                        },
+                        "build": {
+                            "commands": ["cdk deploy --all --require-approval never"],
+                        },
+                    },
+                }
+            ),
+            role=self.self_mutate_deploy_role
+        )
+        self.application_deploy_stage.add_actions(
+            aws_codepipeline_actions.CodeBuildAction(
+                input=self.application_source_artifact,
+                type=aws_codepipeline_actions.CodeBuildActionType.BUILD,
+                run_order=self.application_deploy_stage.next_sequential_run_order(),
+                project=self.application_deploy_codebuild_project,
+                role=self.self_mutate_deploy_role,
+                action_name="AppDeploy"
+            )
+        )
 
     def configure_opa_check_stage(self):
         self.opa_codebuild_project = aws_codebuild.Project(
@@ -75,7 +166,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                     "phases": {
                         "install": {
                             "runtime-versions": {"python": 3.7},
-                            "commands": "python --version",
+                            "commands": ["python --version"],
                         },
                         "build": {
                             "commands": [
@@ -93,5 +184,6 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                 type=aws_codepipeline_actions.CodeBuildActionType.BUILD,
                 run_order=self.automated_controls_stage.next_sequential_run_order(),
                 project=self.opa_codebuild_project,
+                action_name="OPACheck"
             )
         )
