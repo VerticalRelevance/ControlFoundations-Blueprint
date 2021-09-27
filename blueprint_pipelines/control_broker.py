@@ -33,6 +33,7 @@ class ControlBroker(cdk.Construct):
             index=CONTROL_BROKER_LAMBDA_INDEX_FILENAME,
             handler=CONTROL_BROKER_LAMBDA_HANDLE_NAME,
             runtime=aws_lambda.Runtime.PYTHON_3_8,
+            timeout=cdk.Duration.seconds(30)
         )
         self.opa_layer = aws_lambda.LayerVersion(
             self,
