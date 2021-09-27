@@ -106,6 +106,9 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                             "commands": ["cdk synth"],
                         },
                     },
+                    "artifacts": {
+                        "files": ["cdk.out/**"]
+                    }
                 }
             ),
         )
