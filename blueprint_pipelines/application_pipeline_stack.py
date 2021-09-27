@@ -170,6 +170,9 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                         },
                         "build": {
                             "commands": [
+                                "ls -alh .",
+                                "ls -alh $CODEBUILD_SRC_DIR_source2",
+                                "env",
                                 f"{REPO_OPA_EVAL_SCRIPT_PATH} {REPO_OPA_CFN_TEMPL_OPA_POLICIES_DIR} $CODEBUILD_SRC_DIR_source2/cdk.out/*.template.json"
                             ],
                         },
@@ -180,7 +183,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
         self.automated_controls_stage.add_actions(
             aws_codepipeline_actions.CodeBuildAction(
                 input=self.pipeline_source_artifact,
-                extra_inputs=[self.pipeline_cloud_assembly_artifact],
+                extra_inputs=[self.application_cloud_assembly_artifact],
                 type=aws_codepipeline_actions.CodeBuildActionType.BUILD,
                 run_order=self.automated_controls_stage.next_sequential_run_order(),
                 project=self.opa_codebuild_project,
