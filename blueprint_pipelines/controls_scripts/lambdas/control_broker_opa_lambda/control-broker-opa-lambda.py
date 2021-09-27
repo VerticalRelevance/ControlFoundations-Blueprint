@@ -7,10 +7,8 @@ import subprocess
 import tempfile
 
 
-logging_level = os.environ['LOGGING_LEVEL']
-
 logger = logging.getLogger(__name__)
-logger.setLevel(logging_level)
+logger.setLevel(logging.DEBUG)
 handler = logging.StreamHandler()
 logger.addHandler(handler)
 formatter = logging.Formatter(
