@@ -142,7 +142,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                     },
                 }
             ),
-            role=self.self_mutate_deploy_role
+            role=self.self_mutate_codebuild_deploy_role
         )
         self.application_deploy_stage.add_actions(
             aws_codepipeline_actions.CodeBuildAction(
@@ -150,7 +150,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                 type=aws_codepipeline_actions.CodeBuildActionType.BUILD,
                 run_order=self.application_deploy_stage.next_sequential_run_order(),
                 project=self.application_deploy_codebuild_project,
-                role=self.self_mutate_deploy_role,
+                role=self.self_mutate_pipeline_action_role,
                 action_name="AppDeploy"
             )
         )

@@ -73,4 +73,5 @@ class PipelineMixin:
             synth_action=pipeline_synth_action,
         )
 
-        self.self_mutate_deploy_role = [r for r in self.pipeline.node.find_all() if r.node.path.endswith('/Pipeline/UpdatePipeline/SelfMutation/Role')][0]
+        self.self_mutate_pipeline_action_role = [r for r in self.pipeline.node.find_all() if r.node.path.endswith('/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole')][0]
+        self.self_mutate_codebuild_deploy_role = [r for r in self.pipeline.node.find_all() if r.node.path.endswith('/Pipeline/UpdatePipeline/SelfMutation/Role')][0]
