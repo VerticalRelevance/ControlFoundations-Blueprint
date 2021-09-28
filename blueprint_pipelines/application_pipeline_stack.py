@@ -80,7 +80,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
         self.pipeline_source_stage.add_action(application_source_action)
         self.application_build_stage = self.pipeline.add_stage("BuildApplication")
         self.configure_application_build_stage()
-        self.automated_controls_stage = self.pipeline.add_stage("AutomatedControls")
+        self.automated_controls_stage = self.pipeline.add_stage("RunAutomatedControls")
         self.configure_opa_check_stage()
         self.application_deploy_stage = self.pipeline.add_stage("DeployApplication")
         self.configure_application_deploy_stage()
