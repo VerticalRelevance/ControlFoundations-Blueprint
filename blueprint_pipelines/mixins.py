@@ -48,16 +48,14 @@ class PipelineMixin:
 
         if self.codestar_connection_arn_secret_id:
             ssm_statement = iam.PolicyStatement(
-                        actions=["ssm:GetSecretValue"],
-                        resources=["*"],
-                        conditions=[
-                            {
-                                "StringEquals": {
-                                    "secretsmanager:SecretId": self.codestar_connection_arn_secret_id
-                                }
-                            }
-                        ],
-                    )
+                actions=["secretsmanager:GetSecretValue"],
+                resources=["*"],
+                conditions={
+                    "StringEquals": {
+                        "secretsmanager:SecretId": self.codestar_connection_arn_secret_id
+                    }
+                },
+            )
             if additional_synth_iam_statements is None:
                 additional_synth_iam_statements = [ssm_statement]
             elif isinstance(additional_synth_iam_statements, list):
