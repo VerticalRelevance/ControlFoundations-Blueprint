@@ -25,15 +25,15 @@ class PipelineMixin:
         # The connector name is sliced here because the max length
         # of the connection_name attribute is 32.
         connection_name = self.github_repo_name[:32]
-        self.codestar_connection_arn_secret = (
-            self.codestar_connection_arn_secret
-            if hasattr(self, "codestar_connection_arn_secret")
+        self.codestar_connection_arn_secret_id = (
+            self.codestar_connection_arn_secret_id
+            if hasattr(self, "codestar_connection_arn_secret_id")
             else None
         )
-        if self.codestar_connection_arn_secret:
+        if self.codestar_connection_arn_secret_id:
             secrets_client = boto3.client("secretsmanager")
             self.codestar_connection_arn = secrets_client.get_secret_value(
-                SecretId=self.codestar_connection_arn_secret
+                SecretId=self.codestar_connection_arn_secret_id
             )["SecretString"]
         else:
             codestar_connection = codestarconnections.CfnConnection(
@@ -46,14 +46,14 @@ class PipelineMixin:
                 "ConnectionArn"
             ).to_string()
 
-        if self.codestar_connection_arn_secret:
+        if self.codestar_connection_arn_secret_id:
             ssm_statement = iam.PolicyStatement(
                         actions=["ssm:GetSecretValue"],
                         resources=["*"],
                         conditions=[
                             {
                                 "StringEquals": {
-                                    "secretsmanager:SecretId": self.codestar_connection_arn_secret
+                                    "secretsmanager:SecretId": self.codestar_connection_arn_secret_id
                                 }
                             }
                         ],
