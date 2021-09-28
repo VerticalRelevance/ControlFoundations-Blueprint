@@ -42,8 +42,8 @@ the app.py file.
 github_owner = <github-account>
 controls_repo = <controls-pipeline-repo-name>
 application_repo = <application-pipeline-repo-name>
-# The following can be left blank to have a connection created for you
-codestar_connection_arn = <codestar-connection-arn>
+# The following can be set to None to have a connection created for you
+codestar_connection_arn_secret_id = <Secrets Manager secret ID pointing to a CodeStar connection arn>
 ```
 
 Bootstrap the cdk app.
