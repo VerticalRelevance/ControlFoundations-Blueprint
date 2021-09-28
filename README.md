@@ -91,5 +91,4 @@ installation, which could break your setup in the future.
 
 Once you have deployed the solution, you should see a pipeline like the following:
 
-![Screenshot 2021-09-28 at 11-28-20 CodePipeline - AWS Developer Tools](https://user-images.githubusercontent.com/5383250/135118103-7cf76769-7030-4cc5-8190-a73b9b8b8645.png)
-
+![Screenshot 2021-09-28 at 11-28-20 CodePipeline - AWS Developer Tools](https://user-images.githubusercontent.com/5383250/135118103-7cf76769-7030-4cc5-8190-a73b9b8b8645.png) 
