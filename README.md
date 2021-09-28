@@ -4,11 +4,9 @@ This is the Conrols Pipeline Respository for the AWS Controls Foundation. This
 is the repository that will host the security controls such as AWS Config
 Conformance Packs, GuardDuty, IAM Access Analyzer, and Macie.
 
-## Prior to starting the setup of the CDK environment, ensure that you have done the following things:
-* Cloned this repo and the other, ControlsFoundation-ApplicationPipeline
+## Prior to starting the setup of the CDK environment, ensure that you have cloned this repo.
 
-Follow the setup steps below to properly configure the environment and first
-deployment of the infrastructure.
+## Follow the setup steps below to properly configure the environment and first deployment of the infrastructure.
 
 To manually create a virtualenv on MacOS and Linux:
 
@@ -44,20 +42,29 @@ the app.py file.
 github_owner = <github-account>
 controls_repo = <controls-pipeline-repo-name>
 application_repo = <application-pipeline-repo-name>
+# The following can be left blank to have a connection created for you
+codestar_connection_arn = <codestar-connection-arn>
+```
+
+Bootstrap the cdk app.
+
+```
+cdk bootstrap
 ```
 
 At this point you can deploy the CDK app for this blueprint.
 
 ```
-$ cdk deploy --app ControlsFoundationControlsPipeline
+$ cdk deploy --all
 ```
 
-After running cdk deploy, the 2 pipeline structures will be set up, but you will
-ned to go into the console and manually authenticate each pipeline against git
+After running cdk deploy, the 2 pipeline structures will be set up.
+
+If you configured the solution to create a CodeStar connection for you, you will
+need to go into the console and manually authenticate each pipeline against git
 by editing the source artifact stage of the pipeline. Once they are
 authenticated, you will not need to perform this manual step again unless you
-rebuild the source artifact construct. See [these AWS docs](https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-update.html) for instructions on doing this. Once the connection
-is set up, you may have to start a new run of the pipeline manually by clicking
+rebuild the source artifact construct. See [these AWS docs](https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-update.html) for instructions on doing this. Once the connection is set up, you may have to start a new run of the pipeline manually by clicking
 "Release Change" on the pipeline page(s) of the console, or push some code to
 kick off a new pipeline run automatically.
 
@@ -68,7 +75,9 @@ them to your `requirements.txt` file and rerun the `pip install -r requirements.
 command. It is preferable to use `pip freeze -r requirements.txt > requirements.txt`
 to generate `requirements.txt` with every required package and the required
 version of each rather than adding the package to requirements.txt without a
-version specfifier.
+version specfifier. Just make sure to edit the `-e <github URL>` line to be `-e .`
+before committing, since `pip freeze` freezes the exact GitHub commit hash URL for
+installation, which could break your setup in the future.
 
 ## Useful commands
 
