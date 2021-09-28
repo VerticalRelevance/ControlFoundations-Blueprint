@@ -2,8 +2,9 @@ import boto3
 from aws_cdk import (
     aws_codepipeline as codepipeline,
     aws_codepipeline_actions as codepipeline_actions,
-    pipelines as pipelines,
     aws_codestarconnections as codestarconnections,
+    aws_iam as iam,
+    pipelines as pipelines,
 )
 
 
@@ -24,12 +25,16 @@ class PipelineMixin:
         # The connector name is sliced here because the max length
         # of the connection_name attribute is 32.
         connection_name = self.github_repo_name[:32]
-        if (
-            hasattr(self, "codestar_connection_arn_secret")
-            and self.codestar_connection_arn_secret
-        ):
-            secrets_client = boto3.client('secretsmanager')
-            self.codestar_connection_arn = secrets_client.get_secret_value(SecretId=self.codestar_connection_arn_secret)['SecretString']
+        self.codestar_connection_arn_secret = (
+            self.codestar_connection_arn_secret
+            if hasattr(self, "codestar_connection_arn_secret")
+            else None
+        )
+        if self.codestar_connection_arn_secret:
+            secrets_client = boto3.client("secretsmanager")
+            self.codestar_connection_arn = secrets_client.get_secret_value(
+                SecretId=self.codestar_connection_arn_secret
+            )["SecretString"]
         else:
             codestar_connection = codestarconnections.CfnConnection(
                 self,
@@ -40,6 +45,23 @@ class PipelineMixin:
             self.codestar_connection_arn = codestar_connection.get_att(
                 "ConnectionArn"
             ).to_string()
+
+        if self.codestar_connection_arn_secret:
+            ssm_statement = iam.PolicyStatement(
+                        actions=["ssm:GetSecretValue"],
+                        resources=["*"],
+                        conditions=[
+                            {
+                                "StringEquals": {
+                                    "secretsmanager:SecretId": self.codestar_connection_arn_secret
+                                }
+                            }
+                        ],
+                    )
+            if additional_synth_iam_statements is None:
+                additional_synth_iam_statements = [ssm_statement]
+            elif isinstance(additional_synth_iam_statements, list):
+                additional_synth_iam_statements.append(ssm_statement)
 
         # Define the artifacts that represent source code and cloud assembly.
         self.pipeline_source_artifact = codepipeline.Artifact()
@@ -77,5 +99,15 @@ class PipelineMixin:
             synth_action=pipeline_synth_action,
         )
 
-        self.self_mutate_pipeline_action_role = [r for r in self.pipeline.node.find_all() if r.node.path.endswith('/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole')][0]
-        self.self_mutate_codebuild_deploy_role = [r for r in self.pipeline.node.find_all() if r.node.path.endswith('/Pipeline/UpdatePipeline/SelfMutation/Role')][0]
+        self.self_mutate_pipeline_action_role = [
+            r
+            for r in self.pipeline.node.find_all()
+            if r.node.path.endswith(
+                "/Pipeline/Pipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole"
+            )
+        ][0]
+        self.self_mutate_codebuild_deploy_role = [
+            r
+            for r in self.pipeline.node.find_all()
+            if r.node.path.endswith("/Pipeline/UpdatePipeline/SelfMutation/Role")
+        ][0]
