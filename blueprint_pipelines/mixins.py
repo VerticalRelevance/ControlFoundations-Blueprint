@@ -1,3 +1,4 @@
+import boto3
 from aws_cdk import (
     aws_codepipeline as codepipeline,
     aws_codepipeline_actions as codepipeline_actions,
@@ -24,9 +25,12 @@ class PipelineMixin:
         # of the connection_name attribute is 32.
         connection_name = self.github_repo_name[:32]
         if (
-            not hasattr(self, "codestar_connection_arn")
-            or not self.codestar_connection_arn
+            hasattr(self, "codestar_connection_arn_secret")
+            and self.codestar_connection_arn_secret
         ):
+            secrets_client = boto3.client('secretsmanager')
+            self.codestar_connection_arn = secrets_client.get_secret_value(SecretId=self.codestar_connection_arn_secret)['SecretString']
+        else:
             codestar_connection = codestarconnections.CfnConnection(
                 self,
                 connection_name,

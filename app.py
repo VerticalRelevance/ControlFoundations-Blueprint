@@ -20,7 +20,7 @@ common_env = cdk.Environment(
 github_owner = "VerticalRelevance"
 controls_repo = "ControlFoundations-Blueprint"
 application_repo = "ControlFoundations-ExampleApp"
-codestar_connection_arn = "***REMOVED***"
+codestar_connection_arn_secret = "VRCodeStarConnectionLabConnectionArn"
 
 # Allows us to detect whether we are running from within a pipeline's synth
 # stage (like within the control pipeline's synth stage) or not (such as when
@@ -39,7 +39,7 @@ if (
         CONTROLS_PIPELINE_NAME,
         github_owner,
         controls_repo,
-        codestar_connection_arn=codestar_connection_arn,
+        codestar_connection_arn_secret=codestar_connection_arn_secret,
         env=common_env,
     )
 
@@ -54,7 +54,7 @@ if (
         controls_repo,
         application_repo_owner=github_owner,
         application_repo_name=application_repo,
-        codestar_connection_arn=codestar_connection_arn,
+        codestar_connection_arn_secret=codestar_connection_arn_secret,
         env=common_env,
     )
 
