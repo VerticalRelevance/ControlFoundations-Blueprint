@@ -1,8 +1,8 @@
 # AWS Controls Foundation - Controls Pipeline Repository
 
-This is the Conrols Pipeline Respository for the AWS Controls Foundation. This
-is the repository that will host the security controls such as AWS Config
-Conformance Packs, GuardDuty, IAM Access Analyzer, and Macie.
+This is the Control Foundations Blueprint repo for Vertical Relevance's AWS Control Foundation solution. This
+is the repository that will deploy preventative and detective security controls such as AWS Config
+with Conformance Packs and custom rules, GuardDuty, IAM Access Analyzer, Macie, and a Control Broker using AWS Config.
 
 ## Prior to starting the setup of the CDK environment, ensure that you have cloned this repo.
 
