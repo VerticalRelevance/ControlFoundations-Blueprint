@@ -1,5 +1,6 @@
 import boto3
 from aws_cdk import (
+    core as cdk,
     aws_codepipeline as codepipeline,
     aws_codepipeline_actions as codepipeline_actions,
     aws_codestarconnections as codestarconnections,
@@ -51,8 +52,13 @@ class PipelineMixin:
                 actions=["secretsmanager:GetSecretValue"],
                 resources=["*"],
                 conditions={
-                    "StringEquals": {
-                        "secretsmanager:SecretName": self.codestar_connection_arn_secret_id
+                    "StringLike": {
+                        "secretsmanager:SecretId": self.format_arn(
+                            resource="secret",
+                            service="secretsmanager",
+                            resource_name=f"*{self.codestar_connection_arn_secret_id}*",
+                            arn_format=cdk.ArnFormat.COLON_RESOURCE_NAME,
+                        )
                     }
                 },
             )
