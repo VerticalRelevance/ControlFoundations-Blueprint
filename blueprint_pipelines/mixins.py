@@ -52,7 +52,7 @@ class PipelineMixin:
                 resources=["*"],
                 conditions={
                     "StringEquals": {
-                        "secretsmanager:SecretId": self.codestar_connection_arn_secret_id
+                        "secretsmanager:SecretName": self.codestar_connection_arn_secret_id
                     }
                 },
             )
