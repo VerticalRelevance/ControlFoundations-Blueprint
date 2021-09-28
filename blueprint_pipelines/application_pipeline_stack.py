@@ -175,7 +175,7 @@ class ApplicationPipelineStack(cdk.Stack, PipelineMixin):
                                 "ls -alh $CODEBUILD_SRC_DIR_source2",
                                 "ls -alh $CODEBUILD_SRC_DIR_Artifact_BuildApplication_CdkSynth",
                                 "env",
-                                f"{REPO_OPA_EVAL_SCRIPT_PATH} {REPO_OPA_CFN_TEMPL_OPA_POLICIES_DIR} $CODEBUILD_SRC_DIR_Artifact_BuildApplication_CdkSynth/*.template.json",
+                                f"{REPO_OPA_EVAL_SCRIPT_PATH} {REPO_OPA_CFN_TEMPL_OPA_POLICIES_DIR} $CODEBUILD_SRC_DIR_Artifact_BuildApplication_CdkSynth/cdk.out/*.template.json",
                             ],
                         },
                     },
